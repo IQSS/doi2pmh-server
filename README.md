@@ -1,6 +1,8 @@
 # doi2pmh-server
 An OAI-PMH server that provides harvesting sets based on a list of DOIs.
 
+**Dataverse community driven project**
+
 ## Concept
 ![Concept Diagram](https://user-images.githubusercontent.com/21006/72841442-5e04f200-3c64-11ea-8f9c-a494bc318fab.png)
 
