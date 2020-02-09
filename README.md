@@ -14,7 +14,7 @@ Based on Feature Requests from the Dataverse Community:
 
 ## Development
 
-![https://travis-ci.org/IQSS/doi2pmh-server.svg?branch=master]
+![](https://travis-ci.org/IQSS/doi2pmh-server.svg?branch=master)
 
 Demo deployment: [http://doi2pmh.alwaysdata.net](http://doi2pmh.alwaysdata.net)
 
