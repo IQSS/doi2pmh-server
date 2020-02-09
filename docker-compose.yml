@@ -1,0 +1,28 @@
+version: "3.0"
+services:
+  web:
+    build: docker/php
+    working_dir: /var/www
+    volumes:
+      - .:/var/www/
+      - vendor:/var/www/vendor
+      - var:/var/www/var
+    ports:
+      - "80:80"
+    env_file: docker/env
+
+  tools:
+    build: docker/tools
+    working_dir: /var/www
+    volumes:
+      - .:/var/www/
+      - vendor:/var/www/vendor
+      - node_modules:/var/www/node_modules
+      - var:/var/www/var
+    command: "yarn watch"
+    env_file: docker/env
+
+volumes:
+  vendor:
+  node_modules:
+  var:
