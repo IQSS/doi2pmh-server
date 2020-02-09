@@ -11,7 +11,7 @@ chmod 644 ~/.ssh/known_hosts
 ssh doi2pmh@ssh-doi2pmh.alwaysdata.net "cd www && rm -rf src config public templates translations"
 rsync -r --exclude=node_modules * doi2pmh@ssh-doi2pmh.alwaysdata.net:www/
 
-ssh doi2pmh@ssh-doi2pmh.alwaysdata.net "cd www && php bin/console cache:clear --env=prod --no-debug"
+ssh doi2pmh@ssh-doi2pmh.alwaysdata.net "cd www && source scripts/source_alwaysdata.sh && php bin/console cache:clear --env=prod --no-debug"
 #ssh doi2pmh@ssh-doi2pmh.alwaysdata.net "cd www && php bin/console doctrine:migrations:status"
 #ssh doi2pmh@ssh-doi2pmh.alwaysdata.net "cd www && php bin/console doctrine:migrations:migrate -q"
 

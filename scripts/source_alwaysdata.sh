@@ -1,0 +1,1 @@
+eval $(grep -o '/usr/bin/env[^"]*' ~/admin/config/apache/sites.conf | grep -o "'[^=]*=[^']*'" | tr -d "'" | sed 's/\(.*\)/export \1/' )
