@@ -11,6 +11,18 @@ Based on Feature Requests from the Dataverse Community:
 - [When I create a dataset, I want use an existing DOI](https://github.com/IQSS/dataverse/issues/6425)
 - [Harvesting DOI metadata from non-OAI-PMH sources](https://github.com/IQSS/dataverse/issues/5402)
 
+
+## Development
+
+![https://travis-ci.org/IQSS/doi2pmh-server.svg?branch=master]
+
+Demo deployment: [http://doi2pmh.alwaysdata.net](http://doi2pmh.alwaysdata.net)
+
+
+### Quick start
+
+You need docker and docker-compose.
+
 ```
 # Start container
 docker-compose up -d web
@@ -20,7 +32,9 @@ docker-compose run tools yarn
 docker-compose restart tools
 ```
 
-## Update Language files
+### How to?
+
+#### Update Language files
 
 ```
 php bin/console translation:update en --dump-messages --output-format yaml --force
