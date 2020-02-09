@@ -23,7 +23,4 @@ jobs:
       script:
         - bash scripts/build.sh
         - bash scripts/deploy_alwaysdata.sh
-      deploy: script
-      on:
-        branch: master
       
