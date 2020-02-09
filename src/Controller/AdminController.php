@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 
 /**
- * @Route("/doi2pmh/admin/{_locale}", locale="en", requirements={"_locale": "en|fr"})
+ * @Route("/doi2pmh/admin/{_locale}", requirements={"_locale": "en|fr"})
  */
 class AdminController extends AbstractController
 {
