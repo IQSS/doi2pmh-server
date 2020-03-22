@@ -1,2 +1,3 @@
 FROM composer
-RUN apk update && apk add yarn php7-pdo_sqlite sqlite
+RUN docker-php-ext-install mysqli pdo pdo_mysql
+RUN apk update && apk add yarn mysql-client
