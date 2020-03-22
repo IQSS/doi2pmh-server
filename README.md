@@ -26,17 +26,49 @@ You need docker and docker-compose.
 ```
 # Start container
 docker-compose up -d web
-# Fisrt setup: download dependencies
-docker-compose run tools composer install 
-docker-compose run tools yarn
+# First setup: download dependencies
+docker-compose run --rm tools composer install 
+docker-compose run --rm tools yarn
 docker-compose restart tools
+# Create 2 users
+docker-compose exec tools php bin/console doctrine:fixtures:load
 ```
 
 ### How to?
 
+#### Open shell in tools container ?
+
+```
+docker-compose exec tools bash
+```
+
+
 #### Update Language files
+
+In a shell in tools container:
 
 ```
 php bin/console translation:update en --dump-messages --output-format yaml --force
 php bin/console translation:update fr --dump-messages --output-format yaml --force
 ```
+
+#### Create entity
+
+In a shell in tools container:
+
+```
+php bin/console make:entity
+php bin/console make:migration
+php bin/console doctrine:migrations:migrate
+```
+
+#### Access Sqlite database
+
+In a shell in tools container: 
+
+```
+sqlite3 var/data.db
+.mode column
+.headers on
+```
+

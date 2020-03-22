@@ -12,6 +12,6 @@ ssh doi2pmh@ssh-doi2pmh.alwaysdata.net "cd www && rm -rf src config public templ
 rsync -r --exclude=node_modules * doi2pmh@ssh-doi2pmh.alwaysdata.net:www/
 
 ssh doi2pmh@ssh-doi2pmh.alwaysdata.net "cd www && source scripts/source_alwaysdata.sh && php bin/console cache:clear --env=prod --no-debug"
-#ssh doi2pmh@ssh-doi2pmh.alwaysdata.net "cd www && php bin/console doctrine:migrations:status"
-#ssh doi2pmh@ssh-doi2pmh.alwaysdata.net "cd www && php bin/console doctrine:migrations:migrate -q"
+ssh doi2pmh@ssh-doi2pmh.alwaysdata.net "cd www && php bin/console doctrine:migrations:status"
+ssh doi2pmh@ssh-doi2pmh.alwaysdata.net "cd www && php bin/console doctrine:migrations:migrate -q"
 
