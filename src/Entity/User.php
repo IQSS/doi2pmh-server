@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -32,6 +34,16 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Folder", mappedBy="owners")
+     */
+    private $folders;
+
+    public function __construct()
+    {
+        $this->folders = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -109,5 +121,64 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Folder[]
+     */
+    public function getFolders(): Collection
+    {
+        return $this->folders;
+    }
+
+    public function addFolder(Folder $folder): self
+    {
+        if (!$this->folders->contains($folder)) {
+            $this->folders[] = $folder;
+            $folder->addOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFolder(Folder $folder): self
+    {
+        if ($this->folders->contains($folder)) {
+            $this->folders->removeElement($folder);
+            $folder->removeOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function isAdmin(): bool
+    {
+        return in_array('ROLE_ADMIN', $this->getRoles());
+    }
+
+    public function canEdit(Folder $folder)
+    {
+       if ($this->isAdmin()) {
+           return true;
+       }
+       if ($folder->getOwners()->contains($this)){
+           return true;
+       }
+       return false;
+    }
+
+    public function canDelete(Folder $folder)
+    {
+       if ($this->isAdmin()) {
+           return true;
+       }
+       if (!$folder->getOwners()->contains($this)){
+           return false;
+       }
+       // Is it the root permission ?
+       if ($this->canEdit($folder->getParent())){
+           return true;
+       }
+       return false;
     }
 }

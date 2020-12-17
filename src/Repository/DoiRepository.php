@@ -4,7 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Doi;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
+
 
 /**
  * @method Doi|null find($id, $lockMode = null, $lockVersion = null)

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Folder;
 use App\Form\FolderType;
 use App\Entity\Doi;
+use App\Entity\User;
 use App\Form\DoiType;
 use App\Service\DoiService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -101,6 +102,9 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('admin_get_folder');
         }
 
+        $this->denyAccessUnlessGranted('OWNER_OR_ADMIN', $folder);
+
+
         $newfolder = new Folder();
         $form = $this->createForm(FolderType::class, $newfolder);
 
@@ -109,6 +113,9 @@ class AdminController extends AbstractController
             $newfolder = $form->getData();
 
             $newfolder->setParent($folder);
+            foreach ($folder->getOwners() as $o){
+                $newfolder->addOwner($o);
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($newfolder);
             $entityManager->flush();
@@ -152,6 +159,10 @@ class AdminController extends AbstractController
 
         if ($folder->getChildren()->count() != 0 || $folder->getDois()->count() != 0){
             $this->addFlash('error', "Please empty folder before delete");
+            return $this->redirectToRoute('admin_get_folder', array('id' => $id));
+        }
+        if ($folder->getParent() == null){
+            $this->addFlash('error', "Root folder can not be deleted");
             return $this->redirectToRoute('admin_get_folder', array('id' => $id));
         }
         $parentId = $folder->getParent()->getId();
@@ -266,8 +277,10 @@ class AdminController extends AbstractController
      */
     public function userList()
     {
-        return $this->render('admin/index.html.twig', [
+        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+        return $this->render('admin/users.html.twig', [
             'current' => 'user',
+            'users' => $users
         ]);
     }
 }

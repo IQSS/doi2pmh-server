@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DOI2PMH - Users
+{% endblock %}
+
+{% block body %}
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col">Mail</th>
+				<th scope="col">Admin</th>
+				<th scope="col">Folders</th>
+                <th scope="col">Action</th>
+			</tr>
+		</thead>
+		<tbody>
+        {% for user in users %}
+			<tr>
+				<th scope="row">{{ user.email }}</th>
+				<td>{% if 'ROLE_ADMIN' in user.roles %}ADMIN{% endif %}</td>
+				<td>list</td>
+                <td>{% if is_granted('ROLE_ADMIN') or app.user.email == user.email %}EDIT{% endif %}</td>
+			</tr>
+        {% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

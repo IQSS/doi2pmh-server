@@ -31,3 +31,8 @@ DATABASE_URL=mysql://doi2pmh_user:doi2pmh_pwd@database:3306/doi2pmh_db
 ###> symfony/mailer ###
 # MAILER_DSN=smtp://localhost
 ###< symfony/mailer ###
+
+MYSQL_RANDOM_ROOT_PASSWORD=yes
+MYSQL_DATABASE=doi2pmh_db
+MYSQL_USER=doi2pmh_user
+MYSQL_PASSWORD=doi2pmh_pwd

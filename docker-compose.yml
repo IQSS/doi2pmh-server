@@ -23,11 +23,7 @@ services:
     env_file: docker/env
   database:
     image: mariadb:10
-    environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
-      MYSQL_DATABASE: doi2pmh_db
-      MYSQL_USER: doi2pmh_user
-      MYSQL_PASSWORD: doi2pmh_pwd
+    env_file: docker/env
     volumes:
       - db:/var/lib/mysql
 

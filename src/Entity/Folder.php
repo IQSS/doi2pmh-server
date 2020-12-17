@@ -44,10 +44,16 @@ class Folder
      */
     private $dois;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="folders")
+     */
+    private $owners;
+
     public function __construct()
     {
         $this->children = new ArrayCollection();
         $this->dois = new ArrayCollection();
+        $this->owners = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -142,6 +148,32 @@ class Folder
             if ($dois->getFolder() === $this) {
                 $dois->setFolder(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getOwners(): Collection
+    {
+        return $this->owners;
+    }
+
+    public function addOwner(User $owner): self
+    {
+        if (!$this->owners->contains($owner)) {
+            $this->owners[] = $owner;
+        }
+
+        return $this;
+    }
+
+    public function removeOwner(User $owner): self
+    {
+        if ($this->owners->contains($owner)) {
+            $this->owners->removeElement($owner);
         }
 
         return $this;

@@ -25,12 +25,13 @@ You need docker and docker-compose.
 
 ```
 # Start container
-docker-compose up -d web
+docker-compose up -d
 # First setup: download dependencies
 docker-compose run --rm tools composer install 
 docker-compose run --rm tools yarn
 docker-compose restart tools
 # Create 2 users
+docker-compose exec tools php bin/console doctrine:migrations:migrate
 docker-compose exec tools php bin/console doctrine:fixtures:load
 ```
 
@@ -62,13 +63,11 @@ php bin/console make:migration
 php bin/console doctrine:migrations:migrate
 ```
 
-#### Access Sqlite database
+#### Access database
 
 In a shell in tools container: 
 
 ```
-sqlite3 var/data.db
-.mode column
-.headers on
+mysql -h database -u $MYSQL_USER  -p$MYSQL_PASSWORD $MYSQL_DATABASE
 ```
 

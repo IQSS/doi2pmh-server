@@ -9,11 +9,9 @@
       <li class="nav-item">
         <a class="nav-link{% if current is defined and current == "doi" %} active{% endif %}" href="{% if current is defined and current == "doi" %}#{% else %}{{ path('admin_get_folder') }}{% endif%}">{% trans %}DOIs{% endtrans%}{% if current is defined and current=="doi" %} <span class="sr-only">(current)</span>{% endif %}</a>
       </li>
-      {% if is_granted('ROLE_ADMIN') %}
       <li class="nav-item">
         <a class="nav-link{% if current is defined and current=="user" %} active{% endif %}" href="{% if current is defined and current == "user" %}#{% else %}{{ path('admin_user') }}{% endif%}">{% trans %}Users{% endtrans %}{% if current is defined and current=="user" %} <span class="sr-only">(current)</span>{% endif %}</a>
       </li>
-      {% endif %}
     </ul>
     <ul class="navbar-nav">
       <li class="nav-item dropdown">

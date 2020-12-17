@@ -16,12 +16,16 @@
 	</nav>
 	<h3>{{ folder.tag }}
 		<small class="text-muted">{{ folder.name }}</small>
+		{% if app.user.canEdit(folder) %}
 		<!-- Button trigger modal folder -->
 		<button type="button" class="btn btn-outline-secondary btn-sm float-right" data-toggle="modal" data-target="#editFolderModal">
 			<i class="fas fa-pen"></i> Edit
 		</button>
+		{% endif %}
+		{% if app.user.canDelete(folder) %}
 		<!-- Button delete folder -->
 		<a class="btn btn-outline-danger btn-sm float-right" href="{{ path('admin_delete_folder', {'id': folder.id }) }}" role="button"><i class="fas fa-trash"></i> Delete</a>
+		{% endif %}
 	</h3>
 	<div class="list-group">
 		{% for child in folder.children %}
@@ -55,12 +59,13 @@
 						<h5 class="mb-1">
 							<i class="fas fa-link"></i>
 							{{ doi.uri }}
-						</h5>						
+						</h5>
+						{% if app.user.canEdit(folder) %}
 						<small>
 							<button type="button" class="btn btn-outline-danger btn-sm" onclick="return deleteDOI('{{doi.id}}')"><i class="fas fa-trash"></i> Remove</button>
 							<button type="button" class="btn btn-outline-secondary btn-sm" onclick="return editDOI('{{doi.id}}')"><i class="fas fa-pen"></i> Edit</button>
 						</small>
-						
+						{% endif %}
 					</div>
 					<p class="mb-1 doi-citation">{{ doiservice.citation(doi)|raw }}</p>
 				</a>
@@ -68,6 +73,7 @@
 		{% endfor %}
 	</div>
 
+	{% if app.user.canEdit(folder) %}
 	<!-- Button trigger modal folder -->
 	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#folderModal">
 		<i class="fas fa-plus-circle"></i>
@@ -78,7 +84,6 @@
 		<i class="fas fa-plus-circle"></i>
 		Add DOI
 	</button>
-
 	<!-- Modal create folder -->
 	<div class="modal fade" id="folderModal" tabindex="-1" role="dialog" aria-labelledby="folderModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -193,4 +198,5 @@
 			</div>
 		</div>
 	</div>
+	{% endif %}
 {% endblock %}
