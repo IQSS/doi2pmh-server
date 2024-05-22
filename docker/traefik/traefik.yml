@@ -1,0 +1,31 @@
+log:
+  level: DEBUG
+
+entryPoints:
+  http:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+
+
+  https:
+    address: ":443"
+    http:
+      tls: {}
+
+
+providers:
+  file:
+    filename: "/etc/traefik/traefik_dynamic_conf.yml"
+    watch: true
+  docker:
+    exposedByDefault: true
+    defaultRule: "Host(`{{ index .Labels \"com.docker.compose.service\" }}.localtest.me`)"
+
+
+api:
+  dashboard: true
+  insecure: true

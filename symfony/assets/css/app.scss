@@ -1,0 +1,10 @@
+// Overrides must be done before bootstrap.
+@import "init/_import";
+
+// Import bootstrap.
+@import "../../node_modules/bootstrap";
+
+// Custom imports.
+@import "global/_import";
+//@import "search/_import";
+@import "admin/_import";

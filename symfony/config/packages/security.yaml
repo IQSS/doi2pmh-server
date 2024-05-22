@@ -1,0 +1,52 @@
+security:
+    enable_authenticator_manager: true
+    encoders:
+        App\Entity\User:
+            algorithm: sodium
+
+    providers:
+        admin_user:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        
+        api:
+            pattern: ^/api/
+            stateless: true
+            provider: admin_user
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+        
+        login:
+            pattern: ^/authentication_token
+            json_login:
+                check_path: /authentication_token
+                username_path: email
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+        
+        admin:
+            pattern: ^/(%app_locales%)/
+            provider: admin_user
+            guard:
+                authenticators:
+                    - App\Security\AdminAuthenticator
+            logout:
+                  path: security_logout
+                  target: security_login
+                  success_handler: App\Security\AdminAuthenticator
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: '^/(%app_locales%)/admin/login', roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: '^/(%app_locales%)/admin', roles: [ROLE_ADMIN, IS_AUTHENTICATED_FULLY] }
+        - { path: ^/authentication_token, roles: PUBLIC_ACCESS }
+        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }

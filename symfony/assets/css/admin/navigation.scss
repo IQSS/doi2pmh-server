@@ -1,0 +1,27 @@
+body.admin {
+  main {
+    .navbar {
+      label.nav-link {
+        position: relative;
+        margin: 0;
+        cursor: pointer;
+
+        .nav-link-toggle {
+          @include toggle-icon;
+        }
+      }
+
+      .collapse-toggle-input:checked +label.nav-link > .nav-link-toggle {
+        &:after {
+          transform: rotate(0);
+        }
+      }
+    }
+  }
+
+  .nav-separator {
+    width: 50%;
+    margin: 1rem 1.5rem;
+    border-bottom: 1px solid $nav-separator-border;
+  }
+}

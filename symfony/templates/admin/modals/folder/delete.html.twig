@@ -1,0 +1,28 @@
+{% form_theme folderCreateForm 'bootstrap_4_horizontal_layout.html.twig' %}
+<div class="modal" id="folderDeleteModal">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">{{ 'admin.form.folder.delete.title'|trans }}</h3>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-message">
+                    {{ 'admin.form.folder.delete.message'|trans }}
+                </div>
+                <div class="modal-action mt-3">
+                {% set folderHasDoi = (folder.getDois(false) | length) %}
+                {% if folderHasDoi %}
+                    <div class="alert alert-danger">
+                        {{ 'admin.folder.delete.hasDoi' | trans }}
+                    </div>
+                {% endif %}
+                    {{ form_start(folderDeleteForm, {action: path('folder_delete', {folder: folder.id}), method: 'POST'}) }}
+                    {{ form_widget(folderDeleteForm.submit, {'attr': {'class': 'btn ' ~ (folderHasDoi ? 'btn-danger' : 'btn-primary')}}) }}
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'admin.modal.cancel'|trans }}</button>
+                    {{ form_end(folderDeleteForm) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

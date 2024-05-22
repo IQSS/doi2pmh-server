@@ -1,0 +1,50 @@
+/**
+ * Dynamically load a flag SVG based on language code.
+ */
+@mixin flag($langCode) {
+  &:after {
+    content: "";
+    display: inline-block;
+    width: 24px;
+    height: 16px;
+    margin-left: 5px;
+    vertical-align: middle;
+
+    background: url('../../images/flags/#{$langCode}.svg') no-repeat;
+    background-size: 100%;
+  }
+}
+
+@mixin bubble {
+  border-radius: 8px;
+  box-shadow: 3px 4px 8px 0 rgba(37, 14, 98, 0.3);
+  background: $color-text-dark-background;
+}
+
+@mixin toggle-icon {
+  position: relative;
+  display: inline-block;
+  vertical-align: bottom;
+  margin-left: 15px;
+  top: 0.15em;
+  width: 1.5em;
+  height: 1.5em;
+  cursor: pointer;
+  background: $color-bg-main;
+  border-radius: 3px;
+
+  &:before, &:after {
+    content: "";
+    position: absolute;
+    left: 0.5em;
+    top: 50%;
+    width: 0.5em;
+    transition: 0.15s ease-in-out;
+    transform: rotate(90deg);
+    border-bottom: 2px solid $color-text-dark-background;
+  }
+
+  &:before {
+    transform: rotate(0);
+  }
+}

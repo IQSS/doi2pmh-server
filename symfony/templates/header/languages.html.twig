@@ -1,0 +1,11 @@
+<ul class="language-choice list-unstyled d-flex flex-row justify-content-lg-end">
+    {% for locale in locales() %}
+        <li>
+            <a title="{{ locale.name }}" class="{{ app.request.locale == locale.code ? 'active' }}"
+               href="{{ path(app.request.get('_route', 'homepage'), app.request.get('_route_params', [])|merge({_locale: locale.code})) }}">
+                <img alt="{{ locale.name }}" style="max-width: 50px" class="flag" src="{{ asset('build/images/flags/' ~ locale.code ~ '.svg') }}" />
+            </a>
+        </li>
+        <li class="language-choice-separator">/</li>
+    {% endfor %}
+</ul>

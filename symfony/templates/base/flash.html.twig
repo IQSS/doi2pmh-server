@@ -1,0 +1,20 @@
+{% block flash %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                {% for label, messages in app.flashes() %}
+                    {% for message in messages %}
+                        <div class="alert alert-dismissible fade show alert-{{ label }}" role="alert">
+                            <h4 class="alert-heading">{{ message|raw }}</h4>
+                            <button type="button" class="close" data-dismiss="alert"
+                                    title="{{ 'alert.close'|trans }}"
+                                    aria-label="{{ 'alert.close'|trans }}">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

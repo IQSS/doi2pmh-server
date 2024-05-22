@@ -1,0 +1,41 @@
+.clear-input {
+  display: block;
+  opacity: 0;
+  position: absolute;
+  cursor: pointer;
+  right: 1em;
+  top: 50%;
+  width: 0;
+  height: 1em;
+  transform: translate(0, -50%);
+  transition: .25s ease-out;
+
+  &:after, &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    border-right: 2px solid grey;
+    transform: rotate(45deg);
+  }
+
+  &:after {
+    transform: rotate(-45deg);
+  }
+}
+
+input:focus + .clear-input {
+  opacity: 1;
+  width: 1em;
+}
+
+input, select {
+  &.invalid {
+    &, & + .select2 .select2-selection {
+      border-style: solid;
+      border-color: $invalid-border;
+    }
+  }
+}

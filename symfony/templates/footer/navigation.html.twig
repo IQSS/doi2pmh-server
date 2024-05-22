@@ -1,0 +1,15 @@
+<div class="col-lg-12">
+    <nav class="navbar navbar-light navbar-expand-lg navbar justify-content-center align-items-center">
+        <ul class="list-unstyled d-flex flex-wrap mb-0">
+            {% for entry in navigation_menu.getFooterLinks %}
+                <li class="nav-item {{ entry.class }}">
+                    {% if entry.type == "link" %}
+                        <a href="{{ entry.url }}" title="{{ entry.name | trans }}" class="nav-link" target="_blank">
+                            {{ entry.name | trans }}
+                        </a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+</div>

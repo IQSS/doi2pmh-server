@@ -1,0 +1,22 @@
+{% form_theme userDeleteForm 'bootstrap_4_horizontal_layout.html.twig' %}
+<div class="modal" id="userDeleteModal_{{ user.id }}">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">{{ 'admin.user.delete.title'|trans }}</h3>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-message">
+                    {{ 'admin.user.delete.message'|trans }}
+                </div>
+                <div class="modal-action mt-3">
+                    {{ form_start(userDeleteForm, {action: path('user_delete', {user: user.id}), method: "POST"}) }}
+                    {{ form_widget(userDeleteForm.submit) }}
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'admin.modal.cancel'|trans }}</button>
+                    {{ form_end(userDeleteForm) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

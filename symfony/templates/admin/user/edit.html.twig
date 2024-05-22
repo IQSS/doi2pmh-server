@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DOI2PMH - {{ 'admin.users.title'|trans }}{% endblock %}
+
+{% block admin_content %}
+	{% form_theme passwordForm 'bootstrap_4_layout.html.twig' %}
+	<div class="col-5 mx-auto">
+		<h1 class="mb-3">{{ 'admin.user.profile.title'|trans }}</h1>
+		<h5 class="mb-4">{{ app.user.email }}
+			{% if app.user.isAdmin %}
+				({{ 'admin.user.edit.isAdmin'|trans }})
+			{% endif %}
+		</h5>
+
+		{{ form(passwordForm, {action: path('user_edit'), method: "POST"}) }}
+	</div>
+{% endblock %}

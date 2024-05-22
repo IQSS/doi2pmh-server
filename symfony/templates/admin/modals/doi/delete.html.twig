@@ -1,0 +1,22 @@
+{% form_theme doiDeleteForm 'bootstrap_4_horizontal_layout.html.twig' %}
+<div class="modal" id="doiDeleteModal_{{ doi.id }}">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">{{ 'admin.form.doi.delete.title'|trans }}</h3>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-message">
+                    {{ 'admin.form.doi.delete.message'|trans }}
+                </div>
+                <div class="modal-action mt-3">
+                    {{ form_start(doiDeleteForm, {action: path('doi_delete', {doi: doi.id}), method: 'POST'}) }}
+                    {{ form_widget(doiDeleteForm.submit) }}
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'admin.modal.cancel'|trans }}</button>
+                    {{ form_end(doiDeleteForm) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

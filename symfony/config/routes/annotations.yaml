@@ -1,0 +1,12 @@
+admin:
+    resource: '../../src/Controller/Admin/'
+    type: annotation
+    prefix: /{_locale}/admin
+    requirements:
+        _locale: '%app_locales%'
+    defaults:
+        _locale: '%locale%'
+oai:
+    resource: '../../src/Controller/Oai/'
+    type: annotation
+    prefix: /

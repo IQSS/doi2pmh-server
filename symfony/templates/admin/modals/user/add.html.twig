@@ -1,0 +1,22 @@
+{% form_theme userAddForm 'bootstrap_4_horizontal_layout.html.twig' %}
+<div class="modal fade" id="folderAddUserModal" tabindex="-1" role="dialog" aria-labelledby="folderModalLabel" aria-hidden="true" data-focus-on="input:first">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="folderModalLabel">{{ 'admin.form.folder.add.user.title'|trans ~ folder.name }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{ form_start(userAddForm, {action: path('user_create', {folder: folder.id}), method: 'POST', attr: {autocomplete: "off"}}) }}
+                {{ form_row(userAddForm.email) }}
+            </div>
+            <div class="modal-footer">
+                {{ form_widget(userAddForm.submit) }}
+                {{ form_end(userAddForm) }}
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'admin.modal.cancel'|trans }}</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+// Colors
+$color-violet: #2D2264;
+$color-blue: #007C97;
+$color-white: #FFFFFF;
+$color-grey-light: #E6E7Eb;
+$color-grey-very-light: #F5F5F5;
+$color-grey: #6C6B71;
+$color-grey-dark: #505565;
+$color-dark: #232735;
+$color-fuchsia: #DD4A5B;
+$color-orange: #FF821E;
+$color-darkblue: #232635;
+
+// Global
+$color-main: $color-violet;
+$color-bg-main: $color-main;
+$color-text: $color-main;
+$color-text-secondary: $color-fuchsia;
+$color-text-dark-background: $color-white;
+$color-text-muted: $color-grey;
+$color-link: $color-main;
+$color-secondary: $color-fuchsia;
+$color-third: $color-dark;
+$color-text-third: $color-third;
+$color-home-facets: $color-text-third;
+$color-quote: $color-dark;
+$color-hero-overlay:  $color-fuchsia;
+$color-excerpt: $color-grey-dark;
+$color-icons: $color-orange;
+$color-bg-secondary: $color-darkblue;
+$background-default: $color-white;
+$header-background: $background-default;
+$header-shadow: $color-main;
+$nav-separator-border: $color-main;
+$input-border: $color-main;
+$color-background-contrasted: $color-grey-very-light;
+$color-search-results-page-background: $color-background-contrasted;
+$color-background-alternate: $color-background-contrasted;
+$color-search-results-items-background: $color-white;
+$color-homepage-section-title-border: $color-secondary;
+$color-homepage-facet-border: $color-grey;
+
+// Navigation & forms
+$dropdown-toggle-background: $color-bg-secondary;
+$dropdown-active-background: $color-main;
+$dropdown-hover-background: $color-grey-light;
+$invalid-border: $color-secondary;
+$button-background: $color-main;
+$danger-color: $color-secondary;
+
+$header-height: 70px;
+$header-box-shadow: 0 -20px 10px 20px $header-shadow;
+$footer-box-shadow: 0 20px 10px 20px $header-shadow;
+$footer-background: $color-text-dark-background;
+
+// Common variables
+$twitter-color: #1DA1F2;
+$linkedin-color: #0274B3;
+
+$footer-height: 92px;
+$header-height: 70px;

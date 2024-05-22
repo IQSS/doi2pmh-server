@@ -1,0 +1,104 @@
+header {
+  position: relative;
+  z-index: 2;
+  height: $header-height;
+  background: $header-background;
+
+  @include media-breakpoint-up(lg) {
+    box-shadow: $header-box-shadow;
+
+    [class^=container], [class^=col], .row, .navbar-brand, .navbar {
+      height: 100%;
+    }
+  }
+}
+
+.logos {
+  img {
+    height: 100%;
+    width: auto;
+    max-height: 100%;
+    max-width: 100%;
+  }
+}
+
+.flag {
+  height: 1em;
+  width: auto;
+  opacity: 0.4;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.language-choice {
+  border-bottom: none !important;
+
+  li {
+    color: $color-text-muted;
+    margin-right: 10px;
+
+    &.language-choice-separator:last-child {
+      display: none;
+    }
+
+    .active {
+      img {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+@include media-breakpoint-down(lg) {
+  .navbar {
+    padding-left: 0;
+    padding-right: 0;
+
+    &-brand {
+      width: 75%;
+    }
+
+    .header-mobile-menu {
+      position: fixed;
+      top: 70px;
+      left: 0;
+      width: 100%;
+      padding: 10px;
+    }
+
+    & &-nav {
+      .nav-item {
+        margin: 0;
+        padding-left: 15px;
+
+        &.active {
+          border-bottom: none !important;
+          background: $color-bg-main;
+
+          & > a.nav-link {
+            color: $color-text-dark-background;
+          }
+        }
+      }
+    }
+  }
+}
+
+.collapse-toggle {
+  display: none;
+}
+
+.collapse-toggle-input {
+  display: none;
+
+  &:checked {
+    & ~ .collapse {
+      display: block;
+
+
+      background: $header-background;
+    }
+  }
+}

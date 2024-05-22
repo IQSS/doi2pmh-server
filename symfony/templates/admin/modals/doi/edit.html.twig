@@ -1,0 +1,30 @@
+{% form_theme doiEditForm 'bootstrap_4_horizontal_layout.html.twig' %}
+<div class="modal fade" id="doiEditModal_{{ doi.id }}" tabindex="-1" role="dialog" aria-labelledby="doiModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="doiModalLabel">{{ 'admin.form.doi.edit.title'|trans }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{ form_start(doiEditForm, {action: path('doi_edit', {doi: doi.id}), method: 'POST'}) }}
+                {{ form_row(doiEditForm._token, {id: 'doi_edit_token'}) }}
+                {{ form_row(doiEditForm.uri, {id: "doi_edit_uri_" ~ doi.id, attr: {class: 'uri'}}) }}
+                <div class="invalid-feedback" style="display: none">
+                    {{ 'admin.form.doi.uri.invalid'|trans }}
+                </div>
+                {{ form_row(doiEditForm.citation, {id: 'doi_edit_citation_' ~ doi.id, attr: {class: 'citation'}}) }}
+            </div>
+            <div class="modal-footer">
+                {{ form_widget(doiEditForm.submit, {id: 'doi_edit_submit_' ~ doi.id, attr: {class: 'doi_submit btn btn-primary'}}) }}
+                <button class="btn btn-primary spinner" style="display: none" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'admin.modal.cancel'|trans }}</button>
+            </div>
+            {{ form_end(doiEditForm) }}
+        </div>
+    </div>
+</div>

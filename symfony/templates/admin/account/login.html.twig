@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body_classes %}{{ parent() }} admin-login {% endblock %}
+{% block title %}{{ 'admin.login.title' | trans }}{% endblock %}
+
+{% block admin_content %}
+    <div class="col-5 mx-auto">
+        <h1>{{ 'admin.login.title' | trans }}</h1>
+        <form id="admin-login-form" method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+            {% if not isCasAuthentication %}
+                <div class="form-group">
+                    <label for="inputEmail">{{ 'admin.login.email.label' | trans }}</label>
+                    <input type="text" value="" name="email" id="inputEmail" class="form-control" placeholder="{{ 'admin.login.email.label' | trans }}" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword">{{ 'admin.login.password.label' | trans }}</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="{{ 'admin.login.password.label' | trans }}" required>
+                </div>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+                <button class="btn btn-primary" type="submit">
+                    {{ 'admin.login.submit.label' | trans }}
+                </button>
+            {% endif %}
+        </form>
+    </div>
+{% endblock %}

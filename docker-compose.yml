@@ -1,34 +1,77 @@
-version: "3.0"
 services:
-  web:
-    build: docker/php
-    working_dir: /var/www
-    volumes:
-      - .:/var/www/
-      - vendor:/var/www/vendor
-      - var:/var/www/var
+  lb:
+    image: traefik:2.3
     ports:
       - "80:80"
-    env_file: docker/env
-
-  tools:
-    build: docker/tools
-    working_dir: /var/www
+      - "443:443"
+      - "8080:8080"
     volumes:
-      - .:/var/www/
-      - vendor:/var/www/vendor
-      - node_modules:/var/www/node_modules
-      - var:/var/www/var
-    command: "yarn watch"
-    env_file: docker/env
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./docker/traefik/traefik.yml:/etc/traefik/traefik.yml:delegated
+      - ./docker/traefik/traefik_dynamic_conf.yml:/etc/traefik/traefik_dynamic_conf.yml:delegated
+
+    labels:
+      - "traefik.http.routers.dashboard.service=api@internal"
+
   database:
     image: mariadb:10
-    env_file: docker/env
+    command: ["--default-authentication-plugin=mysql_native_password"]
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_DATABASE:
+      MYSQL_USER:
+      MYSQL_PASSWORD:
+      MARIADB_RANDOM_ROOT_PASSWORD:
+    env_file:
+      - .env
     volumes:
       - db:/var/lib/mysql
 
+  node:
+    build: ./docker/node
+    depends_on:
+      - app
+    env_file:
+      - .env
+    volumes:
+      - ./symfony:/var/www/html:cached
+
+  app:
+    build: .
+    volumes:
+      - ./symfony:/var/www/html:cached
+    environment:
+      APP_ENV:
+      NODE_ENV:
+      APP_SECRET:
+      DB_NAME:
+      DB_HOST:
+      DB_USER:
+      DB_PASSWORD:
+      ENABLE_CAS:
+      CAS_HOST:
+      CAS_VERSION:
+      CAS_URI:
+      CAS_PORT:
+      MAILER_DSN:
+    env_file:
+      - .env
+    depends_on:
+      - database
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    restart: unless-stopped
+    ports:
+      - "25:1025"
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.mailhog.loadbalancer.server.port=8025
+
+
 volumes:
-  vendor:
-  node_modules:
-  var:
   db:
+  modsecurity:
+

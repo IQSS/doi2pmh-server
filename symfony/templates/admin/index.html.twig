@@ -1,0 +1,162 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DOI2PMH - DOI{% endblock %}
+
+{% block admin_content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            {% for step in steps %}
+                {% if step.id is defined %}
+                    <li class="breadcrumb-item">
+                        <a href="{{ path('folder_index', {id: step.id}) }}">{{ step.getName() }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            <li class="breadcrumb-item active">
+                {{ folder.getName() }}
+            </li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <h1 class="col float-left">
+                    {{ folder.name }}                
+                {% if app.user.hasRightsFor(folder) %}
+                        <a type="button" title="{{ 'admin.form.folder.edit.title'|trans }}" data-toggle="modal" data-target="#folderEditModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                            </svg>
+                        </a>
+                        {% if not folder.isRootFolderApp %}
+                        <a type="button" title="{{ 'admin.form.folder.delete.title'|trans }}" data-toggle="modal" data-target="#folderDeleteModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                            </svg>
+                        </a>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a type="button" title="{{'admin.form.folder.add.user'|trans }}" data-toggle="modal" data-target="#folderListUserModal">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
+                                    <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
+                                </svg>
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                </h1>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <div class="col-1 align-self-center text-muted">{{ 'admin.folder.id' | trans({'%id%':folder.id}) }}</div>
+                {% endif %}
+            </div>
+            <hr />
+            <h3 class="text-muted">
+                {{ 'admin.folder.title'|trans }}
+                {% if app.user.hasRightsFor(folder) %}
+                    <a type="button" title="{{ 'admin.form.folder.add.title'|trans }}" data-toggle="modal" data-target="#folderCreateModal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                        </svg>
+                    </a>
+                {% endif %}
+            </h3>
+            {% if folder.getChildren()|length == 0 %}
+                <p>{{ 'admin.folder.empty'|trans }}</p>
+            {% else %}
+                <ul class="folders-list mr-5">
+                {% for child in folder.getChildren() %}
+                    <li class="folders-list-item border-0">
+                        <a class="btn btn-outline-dark border-0" title="{{ child.name}}" href="{{ path('folder_index', {id: child.id}) }}">
+                            <div class="text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-folder" viewBox="0 0 16 16">
+                                    <path d="M.54 3.87L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4H2.19zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707z"/>
+                                </svg>
+                            </div>
+                            {{ child.name }}
+                        </a>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            <hr />
+            <h3 class="text-muted">
+                {{ 'admin.doi.title'|trans }}
+                {% if app.user.hasRightsFor(folder) %}
+                    <a type="button" title="{{ 'admin.form.doi.add.title'|trans }}" data-toggle="modal" data-target="#doiCreateModal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                        </svg>
+                    </a>
+                {% endif %}
+            </h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">URI</th>
+                        <th scope="col">Citation</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if folder.dois|length == 0 %}
+                        <tr>
+                            <td colspan="3">{{ 'admin.doi.empty'|trans }}</td>
+                        </tr>
+                    {% else %}
+                        {% for doi in folder.dois %}
+                            {% if not doi.isDeleted() %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ doi.uri }}" target="_blank">{{ doi.uri }}</a>
+                                        <div class="d-flex">
+                                        {% for type in doi.types %}
+                                            <div class="badge badge-light">{{ type | lower }}</div>
+                                        {% endfor %}
+                                        {% if doi.toIgnore %}
+                                            <div class="badge badge-warning">{{'admin.doi.excludedType'|trans}}</div>
+                                        {% endif %}
+                                        </div>
+                                    </td>
+                                    <td>{{ doi.citation }}</td>
+                                    <td style="width: 10%">
+                                        <a type="button" class="color-main" title="{{ 'admin.form.folder.edit.title'|trans }}" data-toggle="modal" data-target="#doiEditModal_{{ doi.id }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                            </svg>
+                                        </a>
+                                        <a type="button" class="color-main" title="{{ 'admin.form.folder.delete.title'|trans }}" data-toggle="modal" data-target="#doiDeleteModal_{{ doi.id }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                            </svg>
+                                        </a>
+                                        <a type="button" class="color-main" title="{{ 'admin.doi.view.oai'|trans }}" href="{{ path('oai_index') }}?verb=GetRecord&identifier={{ doi.uri }}&metadataPrefix=oai_dc" target="_blank">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                            </svg>
+                                        </a>
+                                    </td>
+                                    {{ render(path('doi_delete_index', {doi: doi.id})) }}
+                                    {{ render(path('doi_edit_index', {doi: doi.id})) }}
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% if app.user.hasRightsFor(folder) %}
+        {% include 'admin/modals/folder/create.html.twig' %}
+        {% include 'admin/modals/folder/edit.html.twig' %}
+        {% include 'admin/modals/folder/delete.html.twig' %}
+        {% include 'admin/modals/doi/create.html.twig' %}
+        {% include 'admin/modals/user/add.html.twig' %}
+        {% include 'admin/modals/user/list.html.twig' %}
+    {% endif %}
+{% endblock %}

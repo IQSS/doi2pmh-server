@@ -1,0 +1,11 @@
+.folders-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 6em);
+  grid-gap: 2em;
+}
+
+.folders-list-item {
+  display: flex;
+  align-self: center;
+  justify-content: center;
+}

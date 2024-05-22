@@ -1,0 +1,26 @@
+api_platform:
+    title: 'doi2pmh API'
+    version: '0.1'
+    show_webby: false
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']
+    metadata_backward_compatibility_layer: false
+    allow_plain_identifiers: true
+    patch_formats:
+        json: ['application/merge-patch+json']
+    swagger:
+        versions: [3]
+        api_keys:
+             apiKey:
+                name: Authorization
+                type: header
+    formats:
+        json:
+            mime_types: ['application/json']
+        jsonld:
+            mime_types: ['application/ld+json']
+        html:
+            mime_types: ['text/html']
+    defaults:
+        pagination_enabled: false
+        pagination_client_enabled: true

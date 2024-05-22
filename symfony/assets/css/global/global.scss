@@ -1,0 +1,148 @@
+body {
+  min-height: 100vh;
+  color: $color-text;
+}
+
+.flag {
+  &-fr {
+    @include flag(fr);
+  }
+
+  &-en {
+    @include flag(en);
+  }
+}
+
+.loading {
+  position: relative;
+
+  &:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: white;
+    opacity: 0.7;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    width: 1em;
+    height: 1em;
+    // Calc: 50% - half-width - border-width
+    left: calc(50% - 1em - 0.25em);
+    top: calc(50% - 0.25em - 0.25em);
+    @extend .spinner-border;
+  }
+}
+
+.main {
+  position: relative;
+}
+
+.separator {
+  &:last-child {
+    display: none;
+  }
+}
+
+.text {
+  &-dark-background {
+    color: $color-text-dark-background;
+    background: $color-bg-main;
+  }
+}
+
+.icon {
+  &-add {
+    font-size: 1.5rem;
+    width: 1em;
+    height: 1em;
+    position: relative;
+
+    &:after, &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0.5em;
+      height: 2px;
+      transform: translate(-50%, 0);
+      border-bottom: 2px solid $color-text-dark-background;
+    }
+
+    &:before {
+      transform: translate(0,0) rotate(90deg);
+      left: 25%;
+    }
+  }
+}
+
+.toggle-switch {
+  &-icon {
+    display: block;
+    position: relative;
+    width: 0.7em;
+    height: 0.7em;
+    margin-top: 5px;
+    transition: 0.25s ease-out;
+
+    &:after, &:before {
+      content: "";
+      position: absolute;
+      display: block;
+      width: 0.7em;
+      height: 2px;
+      border-radius: 1px;
+      right: 0;
+      top: 0;
+      background: $color-main;
+    }
+
+    &:after {
+      transform: translate(29.3%, 0.3em) rotate(-45deg);
+    }
+
+    &:before {
+      transform: translate(-29.3%, 0.3em) rotate(45deg);
+    }
+  }
+
+  &-label {
+    cursor: pointer;
+  }
+
+  &-input {
+    &:checked {
+      & + label > .toggle-switch-icon {
+        transform: rotate(180deg);
+      }
+
+      & + label + * {
+        display: none !important;
+      }
+    }
+  }
+}
+
+
+/**
+ * Not used directly, intended for content contribution by users.
+ */
+.color-main {
+  color: $color-text !important;
+}
+
+.color-secondary {
+  color: $color-text-secondary !important;
+}
+
+.color-third {
+  color: $color-text-third !important;
+}

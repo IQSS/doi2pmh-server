@@ -1,0 +1,11 @@
+homepage:
+  path: /
+  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+  defaults:
+    route: folder_index
+    _locale: '%locale%'
+  requirements:
+    _locale: '%app_locales%'
+
+api_login_check:
+    path: /authentication_token

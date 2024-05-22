@@ -3,21 +3,32 @@
 /.env.local
 /.env.local.php
 /.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
-/var/
-/vendor/
+/symfony/.env.local
+/symfony/.env.local.php
+/symfony/.env.*.local
+/symfony/config/secrets/prod/prod.decrypt.private.php
+/symfony/public/bundles/
+/symfony/public/resources/
+/symfony/public/thumbnails/
+/symfony/var/
+/symfony/vendor/
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
 .phpunit
 .phpunit.result.cache
-/phpunit.xml
+/symfony/phpunit.xml
 ###< symfony/phpunit-bridge ###
 
-###> symfony/webpack-encore-bundle ###
-/node_modules/
-/public/build/
-npm-debug.log
-yarn-error.log
-###< symfony/webpack-encore-bundle ###
+/symfony/bin/*
+!/symfony/bin/console
+
+/logs/
+.idea
+/data/
+/build
+/build/*
+
+# Sonar
+.sonar_lock
+report-task.txt
