@@ -22,6 +22,6 @@
         "jquery": "^3.7.1",
         "popper.js": "^1.15",
         "sass-loader": "^13.0.0",
-        "webpack": "^5.89.0"
+        "webpack": "^5.94.0"
     }
 }
