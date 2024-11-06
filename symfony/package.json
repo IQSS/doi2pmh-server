@@ -1,6 +1,6 @@
 {
     "devDependencies": {
-        "@symfony/webpack-encore": "^4.5.0",
+        "@symfony/webpack-encore": "^5.0.1",
         "copy-webpack-plugin": "^11.0.0",
         "core-js": "^3.0.0",
         "regenerator-runtime": "^0.13",
@@ -22,6 +22,6 @@
         "jquery": "^3.7.1",
         "popper.js": "^1.15",
         "sass-loader": "^13.0.0",
-        "webpack": "^5.89.0"
+        "webpack": "^5.96.1"
     }
 }
