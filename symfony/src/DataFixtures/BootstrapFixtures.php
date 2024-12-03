@@ -18,7 +18,7 @@ class BootstrapFixtures extends Fixture
     {
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         // Create a user admin
         $useradmin = new User();
