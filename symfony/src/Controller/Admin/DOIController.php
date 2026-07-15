@@ -21,7 +21,6 @@ use App\Services\DoiService;
 /**
  * Class DOIController
  * @package App\Controller\Admin
- * @Route("/doi", name="doi_")
  */
 class DOIController extends AbstractController
 {
@@ -36,7 +35,7 @@ class DOIController extends AbstractController
     }
 
     /**
-     * @Route("/", methods={"GET"}, name="index")
+     * @Route("/doi/", methods={"GET"}, name="doi_index")
      * @return RedirectResponse
      * @noinspection PhpUnused
      */
@@ -46,7 +45,7 @@ class DOIController extends AbstractController
     }
 
     /**
-     * @Route("/{folder}/create", methods={"POST"}, name="create")
+     * @Route("/doi/{folder}/create", methods={"POST"}, name="doi_create")
      * @param Request $request
      * @param Folder $folder
      * @return RedirectResponse
@@ -83,7 +82,7 @@ class DOIController extends AbstractController
     }
 
     /**
-     * @Route("/{doi}/edit", methods={"GET"}, name="edit_index")
+     * @Route("/doi/{doi}/edit", methods={"GET"}, name="doi_edit_index")
      * @param Doi $doi
      * @return Response
      * @noinspection PhpUnused
@@ -98,7 +97,7 @@ class DOIController extends AbstractController
 
 
     /**
-     * @Route("/{doi}/edit", methods={"POST"}, name="edit")
+     * @Route("/doi/{doi}/edit", methods={"POST"}, name="doi_edit")
      * @param Request $request
      * @param Doi $doi
      * @return RedirectResponse
@@ -125,7 +124,7 @@ class DOIController extends AbstractController
     }
 
     /**
-     * @Route("/{doi}/delete", methods={"GET"}, name="delete_index")
+     * @Route("/doi/{doi}/delete", methods={"GET"}, name="doi_delete_index")
      * @param Doi $doi
      * @return Response
      * @noinspection PhpUnused
@@ -139,7 +138,7 @@ class DOIController extends AbstractController
     }
 
     /**
-     * @Route("/{doi}/delete", methods={"POST"}, name="delete")
+     * @Route("/doi/{doi}/delete", methods={"POST"}, name="doi_delete")
      * @param Request $request
      * @param Doi $doi
      * @return RedirectResponse

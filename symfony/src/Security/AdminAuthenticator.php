@@ -16,7 +16,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -24,9 +23,10 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
-use Symfony\Component\Security\Http\Logout\LogoutSuccessHandlerInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Security\Http\Event\LogoutEvent;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -34,7 +34,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  *
  * @package App\Security
  */
-class AdminAuthenticator extends AbstractGuardAuthenticator implements LogoutSuccessHandlerInterface
+class AdminAuthenticator extends AbstractGuardAuthenticator implements EventSubscriberInterface
 {
     use TargetPathTrait;
 
@@ -47,7 +47,7 @@ class AdminAuthenticator extends AbstractGuardAuthenticator implements LogoutSuc
      * @param EntityManagerInterface $entityManager
      * @param UrlGeneratorInterface $urlGenerator
      * @param CsrfTokenManagerInterface $csrfTokenManager
-     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param UserPasswordHasherInterface $passwordEncoder
      * @param FolderService $folderService
      * @param TranslatorInterface $translator
      */
@@ -191,28 +191,6 @@ class AdminAuthenticator extends AbstractGuardAuthenticator implements LogoutSuc
         return $this->urlGenerator->generate('security_login');
     }
 
-    public function onLogoutSuccess(Request $request): RedirectResponse
-    {
-        if ($this->repoConfiguration->isCasAuthentication()) {
-            if (!phpCAS::isInitialized()) {
-                phpCAS::client(
-                    $this->repoConfiguration->getCasVersion(),
-                    $this->repoConfiguration->getCasHost(),
-                    $this->repoConfiguration->getCasPort(),
-                    $this->repoConfiguration->getCasUri(),
-                    $this->repoConfiguration->getCasServiceBaseUri(),
-
-                );
-            }
-            phpCAS::setLang(PHPCAS_LANG_FRENCH);
-
-            //simple logout
-            phpCAS::logout();
-        }
-        $url = $this->getLoginUrl();
-        return new RedirectResponse($url);
-    }
-
     public function start(Request $request, AuthenticationException $authException = null): RedirectResponse
     {
         return new RedirectResponse($this->getLoginUrl());
@@ -231,5 +209,36 @@ class AdminAuthenticator extends AbstractGuardAuthenticator implements LogoutSuc
     public function supportsRememberMe(): bool
     {
         return false;
+    }
+    public function onLogout(LogoutEvent $logoutEvent): void
+    {
+        if ($logoutEvent->getResponse() !== null) {
+            return;
+        }
+        if ($this->repoConfiguration->isCasAuthentication()) {
+            if (!phpCAS::isInitialized()) {
+                phpCAS::client(
+                    $this->repoConfiguration->getCasVersion(),
+                    $this->repoConfiguration->getCasHost(),
+                    $this->repoConfiguration->getCasPort(),
+                    $this->repoConfiguration->getCasUri(),
+                    $this->repoConfiguration->getCasServiceBaseUri(),
+
+                );
+            }
+            phpCAS::setLang(PHPCAS_LANG_FRENCH);
+
+            //simple logout
+            phpCAS::logout();
+        }
+        $url = $this->getLoginUrl();
+        $logoutEvent->setResponse(new RedirectResponse($url));
+    }
+    /**
+     * @return array<string, mixed>
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [LogoutEvent::class => ['onLogout', 64]];
     }
 }

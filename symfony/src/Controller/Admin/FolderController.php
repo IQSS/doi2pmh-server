@@ -23,7 +23,6 @@ use App\Services\FolderService;
 /**
  * Class FolderController
  * @package App\Controller\Admin
- * @Route("/folder", name="folder_")
  */
 class FolderController extends AbstractController
 {
@@ -41,7 +40,7 @@ class FolderController extends AbstractController
     }
 
     /**
-     * @Route("/{id?}", methods={"GET"}, name="index")
+     * @Route("/folder/{id?}", methods={"GET"}, name="folder_index")
      * @param mixed $id
      * @return Response
      * @noinspection PhpUnused
@@ -70,7 +69,7 @@ class FolderController extends AbstractController
     }
 
     /**
-     * @Route("/{folder}/create", methods={"POST"}, name="create")
+     * @Route("/folder/{folder}/create", methods={"POST"}, name="folder_create")
      * @param Request $request
      * @param Folder $folder
      * @return RedirectResponse
@@ -103,7 +102,7 @@ class FolderController extends AbstractController
     }
 
     /**
-     * @Route("/{folder}/edit", methods={"POST"}, name="edit")
+     * @Route("/folder/{folder}/edit", methods={"POST"}, name="folder_edit")
      * @param Request $request
      * @param Folder $folder
      * @return Response
@@ -129,7 +128,7 @@ class FolderController extends AbstractController
     }
 
     /**
-     * @Route("/{folder}/delete", methods={"POST"}, name="delete")
+     * @Route("/folder/{folder}/delete", methods={"POST"}, name="folder_delete")
      * @param Request $request
      * @param Folder $folder
      * @return Response
@@ -173,7 +172,7 @@ class FolderController extends AbstractController
     }
 
     /**
-     * @Route("/{folder}/{user}/delete", methods={"GET"}, name="delete_user_index")
+     * @Route("/folder/{folder}/{user}/delete", methods={"GET"}, name="folder_delete_user_index")
      * @param Folder $folder
      * @param User $user
      * @return Response

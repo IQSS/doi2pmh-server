@@ -14,7 +14,6 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class OAIController
  * @package App\Controller\Oai
- * @Route("/oai", name="oai_")
  */
 class OAIController extends AbstractController
 {
@@ -27,7 +26,7 @@ class OAIController extends AbstractController
     }
 
     /**
-     * @Route("/", methods={"GET"}, name="index")
+     * @Route("/oai/", methods={"GET"}, name="oai_index")
      * @param Request $request
      * @return Response
      */
@@ -44,7 +43,7 @@ class OAIController extends AbstractController
         return $verb->getXmlResponse();
     }
     /**
-     * @Route("/refresh", methods={"GET"}, name="refresh")
+     * @Route("/oai/refresh", methods={"GET"}, name="oai_refresh")
      * @return Response
      */
     public function refreshData(): Response

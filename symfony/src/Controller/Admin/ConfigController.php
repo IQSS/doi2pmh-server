@@ -16,7 +16,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Class ConfigController
  * @package App\Controller\Admin
- * @Route("/configuration", name="config_")
  */
 class ConfigController extends AbstractController
 {
@@ -28,7 +27,7 @@ class ConfigController extends AbstractController
     }
 
     /**
-     * @Route("/edit", methods={"GET"}, name="edit_index")
+     * @Route("/configuration/edit", methods={"GET"}, name="config_edit_index")
      * @return Response
      * @noinspection PhpUnused
      */
@@ -47,7 +46,7 @@ class ConfigController extends AbstractController
 
 
     /**
-     * @Route("/edit", methods={"POST"}, name="edit")
+     * @Route("/configuration/edit", methods={"POST"}, name="config_edit")
      * @param Request $request
      * @return RedirectResponse
      * @noinspection PhpUnused
@@ -102,7 +101,7 @@ class ConfigController extends AbstractController
     }
 
     /**
-     * @Route("/refreshDoi", methods={"GET"}, name="refresh_doi")
+     * @Route("/configuration/refreshDoi", methods={"GET"}, name="config_refresh_doi")
      * @return Response
      * @noinspection PhpUnused
      */

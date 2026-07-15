@@ -25,7 +25,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Class UserController
  * @package App\Controller\Admin
- * @Route("/user", name="user_")
  */
 class UserController extends AbstractController
 {
@@ -34,13 +33,14 @@ class UserController extends AbstractController
         private EntityManagerInterface $entityManager,
         private TranslatorInterface $translator,
         private UserPasswordHasherInterface $passwordEncoder,
-        private MailerService $mailer
+        private MailerService $mailer,
+        private readonly \Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface $JWTManager
     )
     {
     }
 
     /**
-     * @Route("/", name="index", methods={"GET"})
+     * @Route("/user/", name="user_index", methods={"GET"})
      * @return Response
      * @noinspection PhpUnused
      */
@@ -53,7 +53,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/edit", name="index_edit", methods={"GET"})
+     * @Route("/user/edit", name="user_index_edit", methods={"GET"})
      * @return Response
      * @noinspection PhpUnused
      */
@@ -66,7 +66,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/edit", name="edit", methods={"POST"})
+     * @Route("/user/edit", name="user_edit", methods={"POST"})
      * @param Request $request
      * @return Response
      * @noinspection PhpUnused
@@ -109,7 +109,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{userToEdit}/edit/isAdmin", name="edit_admin", methods={"POST"})
+     * @Route("/user/{userToEdit}/edit/isAdmin", name="user_edit_admin", methods={"POST"})
      * @param Request $request
      * @param User $userToEdit
      * @return Response
@@ -136,7 +136,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{folder}/create", methods={"POST"}, name="create")
+     * @Route("/user/{folder}/create", methods={"POST"}, name="user_create")
      * @param Request $request
      * @param Folder $folder
      * @return RedirectResponse
@@ -194,7 +194,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{user}/{folder}/remove", methods={"POST"}, name="removeFromFolder")
+     * @Route("/user/{user}/{folder}/remove", methods={"POST"}, name="user_removeFromFolder")
      * @param Request $request
      * @param User $user
      * @param Folder $folder
@@ -226,7 +226,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{user}/delete", methods={"GET"}, name="delete_index")
+     * @Route("/user/{user}/delete", methods={"GET"}, name="user_delete_index")
      * @param User $user
      * @return Response
      * @noinspection PhpUnused
@@ -240,7 +240,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{user}/delete", methods={"POST"}, name="delete")
+     * @Route("/user/{user}/delete", methods={"POST"}, name="user_delete")
      * @param User $user
      * @return RedirectResponse
      * @noinspection PhpUnused
@@ -260,7 +260,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/autocomplete/{email?}", name="autocomplete", methods={"GET"})
+     * @Route("/user/autocomplete/{email?}", name="user_autocomplete", methods={"GET"})
      * @param string|null $email
      * @return JsonResponse
      * @noinspection PhpUnused
@@ -271,12 +271,12 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/apiToken", name="api_token", methods={"GET"})
+     * @Route("/user/apiToken", name="user_api_token", methods={"GET"})
      * @return JsonResponse
      */
-    public function apiToken(JWTTokenManagerInterface $JWTManager): JsonResponse
+    public function apiToken(): JsonResponse
     {
-        $token = $JWTManager->create($this->getUser());
-       return new JsonResponse($token);
+        $token = $this->JWTManager->create($this->getUser());
+        return new JsonResponse($token);
     }
 }
