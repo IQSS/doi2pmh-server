@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## v1.2
+- requiere PHP 8.3
+
 ## v1.1
 - requiere PHP 8.1
 - add API access to basic operations
