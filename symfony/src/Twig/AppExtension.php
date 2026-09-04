@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace App\Twig;
 
+use Twig\Attribute\AsTwigFunction;
 use Symfony\Component\Intl\Locales;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
 
 /**
  * Class AppExtension
  *
  * @package App\Twig
  */
-class AppExtension extends AbstractExtension
+class AppExtension
 {
     private ?array $localeCodes = null;
 
@@ -32,16 +31,7 @@ class AppExtension extends AbstractExtension
     /**
      * @return array
      */
-    public function getFunctions(): array
-    {
-        return [
-            new TwigFunction('locales', $this->getLocales(...)),
-        ];
-    }
-
-    /**
-     * @return array
-     */
+    #[AsTwigFunction(name: 'locales')]
     public function getLocales(): array
     {
         if (null !== $this->locales) {
