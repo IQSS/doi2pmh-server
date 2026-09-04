@@ -62,7 +62,7 @@
         ]
     },
     "knplabs/doctrine-behaviors": {
-        "version": "2.6.2"
+        "version": "v3.1.0"
     },
     "lexik/jwt-authentication-bundle": {
         "version": "2.21",

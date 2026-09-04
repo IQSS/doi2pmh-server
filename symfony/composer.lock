@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "24e5633876e7a668b6a8f68905930056",
+    "content-hash": "3dab35204e126902a823508d19b53202",
     "packages": [
         {
             "name": "apereo/phpcas",
@@ -1922,53 +1922,54 @@
         },
         {
             "name": "knplabs/doctrine-behaviors",
-            "version": "2.6.2",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/DoctrineBehaviors.git",
-                "reference": "aa7c160caec5716d4b9e065e4ed4a90a1cef9c50"
+                "reference": "12123fdcc73200692c6ee07385080ca899f71201"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/DoctrineBehaviors/zipball/aa7c160caec5716d4b9e065e4ed4a90a1cef9c50",
-                "reference": "aa7c160caec5716d4b9e065e4ed4a90a1cef9c50",
+                "url": "https://api.github.com/repos/KnpLabs/DoctrineBehaviors/zipball/12123fdcc73200692c6ee07385080ca899f71201",
+                "reference": "12123fdcc73200692c6ee07385080ca899f71201",
                 "shasum": ""
             },
             "require": {
+                "doctrine/collections": "^2.1.2",
                 "doctrine/common": "^3.3",
-                "doctrine/dbal": "^3.3",
-                "doctrine/doctrine-bundle": "^2.6",
-                "doctrine/orm": "^2.12",
-                "doctrine/persistence": "^2.5|^3.0",
-                "nette/utils": "^3.2",
-                "php": ">=8.0",
-                "ramsey/uuid": "^4.2",
-                "symfony/cache": "^5.4|^6.0",
-                "symfony/dependency-injection": "^5.4|^6.0",
-                "symfony/framework-bundle": "^5.4|^6.0",
-                "symfony/http-kernel": "^5.4|^6.0",
-                "symfony/security-core": "^5.4|^6.0",
-                "symfony/string": "^5.4|^6.0",
+                "doctrine/dbal": "^3.8.0|^4.1",
+                "doctrine/doctrine-bundle": "^2.17|^3.0",
+                "doctrine/orm": "^2.12|^3.0.0",
+                "doctrine/persistence": "^2.5|^3.0|^4.0",
+                "nette/utils": "^3.2|^4.0",
+                "php": ">=8.1",
+                "ramsey/uuid": "^4.3",
+                "symfony/cache": "^6.4|^7.3|^8.0",
+                "symfony/dependency-injection": "^6.4|^7.3|^8.0",
+                "symfony/framework-bundle": "^6.4|^7.3|^8.0",
+                "symfony/http-kernel": "^6.4|^7.3|^8.0",
+                "symfony/security-bundle": "^6.4|^7.3|^8.0",
+                "symfony/string": "^6.4|^7.3|^8.0",
                 "symfony/translation-contracts": "^2.4|^3.0"
             },
             "require-dev": {
-                "doctrine/annotations": "^1.13",
+                "doctrine/annotations": "^2.0.1",
                 "ext-pdo_mysql": "*",
                 "ext-pdo_pgsql": "*",
                 "ext-pdo_sqlite": "*",
                 "php-parallel-lint/php-parallel-lint": "^1.3",
-                "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "^1.7.10",
-                "phpstan/phpstan-doctrine": "^1.3",
-                "phpstan/phpstan-phpunit": "^1.1",
-                "phpunit/phpunit": "^9.5",
+                "phpstan/extension-installer": "^1.4.3",
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-doctrine": "^2.0",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpunit/phpunit": "^10.5",
                 "psr/log": "^1.1",
-                "rector/rector": "^0.13.4",
-                "symplify/easy-ci": "^10.2.9",
-                "symplify/easy-coding-standard": "^10.2.9",
-                "symplify/package-builder": "^10.2.9",
-                "symplify/phpstan-extensions": "^10.2.9",
-                "symplify/phpstan-rules": "^10.2.9"
+                "rector/rector": "^2.1",
+                "symfony/phpunit-bridge": "^7.3",
+                "symplify/easy-ci": "^12.1",
+                "symplify/easy-coding-standard": "^12.6",
+                "symplify/phpstan-extensions": "^12.0",
+                "symplify/phpstan-rules": "^14.7"
             },
             "type": "symfony-bundle",
             "extra": {
@@ -1976,6 +1977,9 @@
                     "includes": [
                         "phpstan-extension.neon"
                     ]
+                },
+                "branch-alias": {
+                    "dev-main": "3.x-dev"
                 }
             },
             "autoload": {
@@ -2008,9 +2012,9 @@
             ],
             "support": {
                 "issues": "https://github.com/KnpLabs/DoctrineBehaviors/issues",
-                "source": "https://github.com/KnpLabs/DoctrineBehaviors/tree/2.6.2"
+                "source": "https://github.com/KnpLabs/DoctrineBehaviors/tree/v3.1.0"
             },
-            "time": "2022-08-06T10:40:16+00:00"
+            "time": "2026-01-09T14:35:41+00:00"
         },
         {
             "name": "lcobucci/jwt",
@@ -2371,46 +2375,51 @@
         },
         {
             "name": "nette/utils",
-            "version": "v3.2.10",
+            "version": "v4.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "a4175c62652f2300c8017fb7e640f9ccb11648d2"
+                "reference": "b043439dbdf954e6c28b5ea7e34b0100f83165e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/a4175c62652f2300c8017fb7e640f9ccb11648d2",
-                "reference": "a4175c62652f2300c8017fb7e640f9ccb11648d2",
+                "url": "https://api.github.com/repos/nette/utils/zipball/b043439dbdf954e6c28b5ea7e34b0100f83165e0",
+                "reference": "b043439dbdf954e6c28b5ea7e34b0100f83165e0",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.2 <8.4"
+                "php": "8.2 - 8.5"
             },
             "conflict": {
-                "nette/di": "<3.0.6"
+                "nette/finder": "<3",
+                "nette/schema": "<1.2.2"
             },
             "require-dev": {
-                "jetbrains/phpstorm-attributes": "dev-master",
-                "nette/tester": "~2.0",
-                "phpstan/phpstan": "^1.0",
-                "tracy/tracy": "^2.3"
+                "jetbrains/phpstorm-attributes": "^1.2",
+                "nette/phpstan-rules": "^1.0",
+                "nette/tester": "^2.5",
+                "phpstan/extension-installer": "^1.4@stable",
+                "phpstan/phpstan": "^2.1@stable",
+                "tracy/tracy": "^2.9"
             },
             "suggest": {
                 "ext-gd": "to use Image",
-                "ext-iconv": "to use Strings::webalize(), toAscii(), chr() and reverse()",
+                "ext-iconv": "to use Strings::chr(), ord() and reverse()",
                 "ext-intl": "to use Strings::webalize(), toAscii(), normalize() and compare()",
                 "ext-json": "to use Nette\\Utils\\Json",
                 "ext-mbstring": "to use Strings::lower() etc...",
-                "ext-tokenizer": "to use Nette\\Utils\\Reflection::getUseStatements()",
-                "ext-xml": "to use Strings::length() etc. when mbstring is not available"
+                "ext-tokenizer": "to use Nette\\Utils\\Reflection::getUseStatements()"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2-dev"
+                    "dev-master": "4.1-dev"
                 }
             },
             "autoload": {
+                "psr-4": {
+                    "Nette\\": "src"
+                },
                 "classmap": [
                     "src/"
                 ]
@@ -2451,9 +2460,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/utils/issues",
-                "source": "https://github.com/nette/utils/tree/v3.2.10"
+                "source": "https://github.com/nette/utils/tree/v4.1.5"
             },
-            "time": "2023-07-30T15:38:18+00:00"
+            "time": "2026-07-17T23:02:45+00:00"
         },
         {
             "name": "nikic/php-parser",
