@@ -9,7 +9,6 @@
         "ext-json": "*",
         "apereo/phpcas": "^1.6",
         "api-platform/core": "^3.4",
-        "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-fixtures-bundle": "^3.3",
         "doctrine/doctrine-migrations-bundle": "^3.2",

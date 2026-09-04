@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\DoiRepository;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -12,19 +13,14 @@ use ApiPlatform\OpenApi\Model\Operation;
 use App\State\DoiProcessor;
 use App\State\DoiProvider;
 use Doctrine\ORM\Mapping as ORM;
-use App\Validator\Doi as AcmeAssert;
+use App\Validator\Doi\DoiUrl;
 use DateTime;
 use DateTimeInterface;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Attribute\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Ignore;
-use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\DoiRepository")
- * @ORM\HasLifecycleCallbacks
- */
-
- #[ApiResource(
+#[ApiResource(
     security: "is_granted('IS_AUTHENTICATED_FULLY')",
     provider:DoiProvider::class,
     normalizationContext:['groups' => [Doi::GROUP_READ], 'openapi_definition_name' => 'Read'],
@@ -53,69 +49,53 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Delete(read: true)
         ]
 )]
+#[ORM\Entity(repositoryClass: DoiRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Doi
 {
 
     const GROUP_READ="doi:read";
     const GROUP_WRITE="doi:write";
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
     #[Groups([Doi::GROUP_READ])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private int $id;
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\Url
-     * @AcmeAssert\DoiUrl
-     */
     #[Groups([Doi::GROUP_READ, Doi::GROUP_WRITE])]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[Assert\Url]
+    #[DoiUrl]
     private ?string $uri = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Folder", inversedBy="dois", fetch="EAGER")
-     */
     #[Groups([Doi::GROUP_READ, Doi::GROUP_WRITE])]
+    #[ORM\ManyToOne(targetEntity: Folder::class, inversedBy: 'dois', fetch: 'EAGER')]
     private ?Folder $folder;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
     #[Groups([Doi::GROUP_READ])]
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $citation = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $jsonContent;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private bool $deleted = false;
 
     /**
-     * @ORM\Column(type="boolean")
      * Was the DOI marked as toIgnore when it was last refreshed?
      */
+    #[ORM\Column(type: 'boolean')]
     private bool $toIgnore = false;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private ?DateTimeInterface $createdAt = null;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private ?DateTimeInterface $updatedAt = null;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private ?DateTimeInterface $deletedAt = null;
 
 
@@ -161,9 +141,9 @@ class Doi
     }
 
     /**
-     * @Ignore
      * @return Object|null
      */
+    #[Ignore]
     public function getContent(): ?Object
     {
         return json_decode($this->jsonContent);
@@ -294,9 +274,7 @@ class Doi
         return [];
     }
 
-     /**
-     * @ORM\PrePersist
-     */
+     #[ORM\PrePersist]
     public function initCreatedAt(): void
     {
         if ($this->getCreatedAt() === null) {

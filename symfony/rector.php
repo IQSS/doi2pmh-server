@@ -16,4 +16,5 @@ return RectorConfig::configure()
     ->withComposerBased(symfony: true)
     ->withConfiguredRule(AnnotationToAttributeRector::class, [
         new AnnotationToAttribute('Symfony\Component\Routing\Annotation\Route'),
-    ]);
+    ])
+    ->withAttributesSets(symfony: true, doctrine: true);

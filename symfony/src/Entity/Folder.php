@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 
+use App\Repository\FolderRepository;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -14,9 +15,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\FolderRepository")
- */
 #[ApiResource(
     security: "is_granted('IS_AUTHENTICATED_FULLY')",
     operations:[
@@ -30,55 +28,44 @@ use Symfony\Component\Serializer\Annotation\Groups;
             provider: FolderProvider::class),
         new GetCollection(
             openapi: new Operation(
-                description: 'Retrieves the Folders the authentified user can edit.',
                 summary: 'Retrieves the Folders of the current user.'
             ),
+            description: 'Retrieves the Folders the authentified user can edit.',
             name: 'api_folder_me',
             normalizationContext:['groups' => [Folder::GROUP_READ], 'openapi_definition_name' => 'Read'],
             provider: FolderProvider::class,
             uriTemplate:'folders/me')
     ]
 )]
+#[ORM\Entity(repositoryClass: FolderRepository::class)]
 class Folder
 {
 
     const GROUP_READ="folder:read";
     const GROUP_READ_ONE="folder:get:read";
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
     #[Groups([Folder::GROUP_READ_ONE, Folder::GROUP_READ])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private int $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     #[Groups([Folder::GROUP_READ_ONE, Folder::GROUP_READ])]
+    #[ORM\Column(type: 'string', length: 255)]
     private ?string $name = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Folder", inversedBy="children", cascade={"remove"}, fetch="EAGER")
-     */
     #[Groups([Folder::GROUP_READ_ONE])]
+    #[ORM\ManyToOne(targetEntity: Folder::class, inversedBy: 'children', cascade: ['remove'], fetch: 'EAGER')]
     private ?Folder $parent = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Folder", mappedBy="parent", cascade={"remove"})
-     */
     #[Groups([Folder::GROUP_READ])]
+    #[ORM\OneToMany(targetEntity: Folder::class, mappedBy: 'parent', cascade: ['remove'])]
     private Collection $children;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Doi", mappedBy="folder")
-     */
+    #[ORM\OneToMany(targetEntity: Doi::class, mappedBy: 'folder')]
     private Collection $dois;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="rootFolder")
-     */
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'rootFolder')]
     private Collection $owners;
 
     public function __construct()

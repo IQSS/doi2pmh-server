@@ -3,12 +3,9 @@
 
 namespace App\Validator\Doi;
 
-
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @Annotation
- */
+#[\Attribute]
 class DoiUrl extends Constraint
 {
     public string $messageBadHost = 'admin.constraint.doi.host';
