@@ -6,6 +6,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\OpenApi\Model\Operation;
 use App\State\FolderProvider;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -28,10 +29,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
             normalizationContext:['groups' => [Folder::GROUP_READ], 'openapi_definition_name' => 'ReadAll'],
             provider: FolderProvider::class),
         new GetCollection(
-            openapiContext:[
-                'description' => 'Retrieves the Folders the authentified user can edit.',
-                'summary' => 'Retrieves the Folders of the current user.'
-            ],
+            openapi: new Operation(
+                description: 'Retrieves the Folders the authentified user can edit.',
+                summary: 'Retrieves the Folders of the current user.'
+            ),
             name: 'api_folder_me',
             normalizationContext:['groups' => [Folder::GROUP_READ], 'openapi_definition_name' => 'Read'],
             provider: FolderProvider::class,

@@ -40,11 +40,11 @@ class FolderController extends AbstractController
     }
 
     /**
-     * @Route("/folder/{id?}", methods={"GET"}, name="folder_index")
      * @param mixed $id
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/folder/{id?}', methods: ['GET'], name: 'folder_index')]
     public function index($id): Response
     {
         if ($this->getUser()->isFirstConnexion() && !$this->configuration->isCasAuthentication()) {
@@ -69,12 +69,12 @@ class FolderController extends AbstractController
     }
 
     /**
-     * @Route("/folder/{folder}/create", methods={"POST"}, name="folder_create")
      * @param Request $request
      * @param Folder $folder
      * @return RedirectResponse
      * @noinspection PhpUnused
      */
+    #[Route(path: '/folder/{folder}/create', methods: ['POST'], name: 'folder_create')]
     public function create(Request $request, Folder $folder): RedirectResponse
     {
         $form = $this->createForm(FolderType::class);
@@ -102,12 +102,12 @@ class FolderController extends AbstractController
     }
 
     /**
-     * @Route("/folder/{folder}/edit", methods={"POST"}, name="folder_edit")
      * @param Request $request
      * @param Folder $folder
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/folder/{folder}/edit', methods: ['POST'], name: 'folder_edit')]
     public function edit(Request $request, Folder $folder): Response
     {
         $form = $this->createForm(FolderType::class);
@@ -128,12 +128,12 @@ class FolderController extends AbstractController
     }
 
     /**
-     * @Route("/folder/{folder}/delete", methods={"POST"}, name="folder_delete")
      * @param Request $request
      * @param Folder $folder
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/folder/{folder}/delete', methods: ['POST'], name: 'folder_delete')]
     public function delete(Request $request, Folder $folder): Response
     {
         $form = $this->createForm(FolderDeleteType::class);
@@ -172,12 +172,12 @@ class FolderController extends AbstractController
     }
 
     /**
-     * @Route("/folder/{folder}/{user}/delete", methods={"GET"}, name="folder_delete_user_index")
      * @param Folder $folder
      * @param User $user
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/folder/{folder}/{user}/delete', methods: ['GET'], name: 'folder_delete_user_index')]
     public function deleteIndex(Folder $folder, User $user): Response
     {
         return $this->render('admin/modals/user/deleteFromFolder.html.twig', [

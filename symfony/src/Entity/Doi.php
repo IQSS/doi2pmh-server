@@ -8,7 +8,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
-use ApiPlatform\OpenApi\Model;
+use ApiPlatform\OpenApi\Model\Operation;
 use App\State\DoiProcessor;
 use App\State\DoiProvider;
 use Doctrine\ORM\Mapping as ORM;
@@ -32,9 +32,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Get(),
         new GetCollection(),
         new GetCollection(
-            openapiContext:[
-                'summary' => 'Retrieves the DOIs in the Folder.'
-            ],
+            openapi: new Operation(
+                summary: 'Retrieves the DOIs in the Folder.'
+            ),
             uriTemplate: "folders/{id}/dois",
             uriVariables:[
                 'id' => new Link(fromClass:Folder::class, toProperty:"folder")

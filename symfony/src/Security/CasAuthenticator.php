@@ -11,30 +11,26 @@ use phpCAS;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
-use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Csrf\CsrfToken;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
-use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
+use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class AdminAuthenticator
+ * Class CasAuthenticator
  *
  * @package App\Security
  */
-class AdminAuthenticator extends AbstractGuardAuthenticator implements EventSubscriberInterface
+class CasAuthenticator extends AbstractAuthenticator implements EventSubscriberInterface
 {
     use TargetPathTrait;
 
@@ -42,22 +38,16 @@ class AdminAuthenticator extends AbstractGuardAuthenticator implements EventSubs
 
 
     /**
-     * AdminAuthenticator constructor.
+     * CasAuthenticator constructor.
      *
      * @param EntityManagerInterface $entityManager
      * @param UrlGeneratorInterface $urlGenerator
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-     * @param UserPasswordHasherInterface $passwordEncoder
      * @param FolderService $folderService
-     * @param TranslatorInterface $translator
      */
     public function __construct(
         private EntityManagerInterface $entityManager,
         private UrlGeneratorInterface $urlGenerator,
-        private CsrfTokenManagerInterface $csrfTokenManager,
-        private UserPasswordHasherInterface $passwordEncoder,
         private FolderService $folderService,
-        private TranslatorInterface $translator
     ) {
         $this->repoConfiguration = Configuration::getConfigurationInstance($this->entityManager);
     }
@@ -67,18 +57,14 @@ class AdminAuthenticator extends AbstractGuardAuthenticator implements EventSubs
      *
      * @return bool
      */
+    #[\Override]
     public function supports(Request $request): bool
     {
-        return ('security_login' === $request->attributes->get('_route')
-            && $request->isMethod('POST')) || $this->repoConfiguration->isCasAuthentication();
+        return $this->repoConfiguration->isCasAuthentication();
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return array|mixed
-     */
-    public function getCredentials(Request $request): ?array
+    #[\Override]
+    public function authenticate(Request $request): Passport
     {
         if ($this->repoConfiguration->isCasAuthentication()) {
             phpCAS::setLogger();
@@ -103,62 +89,12 @@ class AdminAuthenticator extends AbstractGuardAuthenticator implements EventSubs
             );
 
             if (phpCAS::getUser()) {
-                return ['email' => phpCAS::getUser()];
+                return new SelfValidatingPassport(new UserBadge(phpCAS::getUser()));
             }
 
-            return null;
-        } else {
-            $credentials = [
-                'email' => $request->request->get('email'),
-                'password' => $request->request->get('password'),
-                'csrf_token' => $request->request->get('_csrf_token'),
-            ];
-            $request->getSession()->set(
-                Security::LAST_USERNAME,
-                $credentials['email']
-            );
-
-            return $credentials;
+            throw new CustomUserMessageAuthenticationException('Error during cas authentification');
         }
-    }
-
-    /**
-     * @param mixed                 $credentials
-     * @param UserProviderInterface $userProvider
-     *
-     * @return UserInterface
-     */
-    public function getUser($credentials, UserProviderInterface $userProvider): UserInterface
-    {
-        if (!$this->repoConfiguration->isCasAuthentication()) {
-            $token = new CsrfToken('authenticate', $credentials['csrf_token']);
-            if (!$this->csrfTokenManager->isTokenValid($token)) {
-                throw new InvalidCsrfTokenException();
-            }
-        }
-
-        /**
-         * @var User $user
-         */
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
-
-        if (!$user) {
-            // Fail authentication with a custom error !
-            throw new CustomUserMessageAuthenticationException($this->translator->trans('admin.login.email.notFound'));
-        }
-
-        return $user;
-    }
-
-    /**
-     * @param mixed         $credentials
-     * @param UserInterface $user
-     *
-     * @return bool
-     */
-    public function checkCredentials($credentials, UserInterface $user): bool
-    {
-        return $this->repoConfiguration->isCasAuthentication() || $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        throw new CustomUserMessageAuthenticationException('CAS authentification disabled');
     }
 
     /**
@@ -168,6 +104,7 @@ class AdminAuthenticator extends AbstractGuardAuthenticator implements EventSubs
      *
      * @return null|Response
      */
+    #[\Override]
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response
     {
         if ($this->repoConfiguration->isCasAuthentication()) {
@@ -191,11 +128,7 @@ class AdminAuthenticator extends AbstractGuardAuthenticator implements EventSubs
         return $this->urlGenerator->generate('security_login');
     }
 
-    public function start(Request $request, AuthenticationException $authException = null): RedirectResponse
-    {
-        return new RedirectResponse($this->getLoginUrl());
-    }
-
+    #[\Override]
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?RedirectResponse
     {
         if ($request->hasSession()) {
@@ -206,10 +139,6 @@ class AdminAuthenticator extends AbstractGuardAuthenticator implements EventSubs
         return $this->repoConfiguration->isCasAuthentication() ? null : new RedirectResponse($url);
     }
 
-    public function supportsRememberMe(): bool
-    {
-        return false;
-    }
     public function onLogout(LogoutEvent $logoutEvent): void
     {
         if ($logoutEvent->getResponse() !== null) {
@@ -237,6 +166,7 @@ class AdminAuthenticator extends AbstractGuardAuthenticator implements EventSubs
     /**
      * @return array<string, mixed>
      */
+    #[\Override] 
     public static function getSubscribedEvents(): array
     {
         return [LogoutEvent::class => ['onLogout', 64]];

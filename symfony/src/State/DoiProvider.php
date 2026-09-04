@@ -3,7 +3,6 @@
 namespace App\State;
 
 use ApiPlatform\Metadata\CollectionOperationInterface;
-use App\Entity\Doi;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 

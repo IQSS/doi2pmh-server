@@ -1,12 +1,12 @@
 admin:
-    resource: '../../src/Controller/Admin/'
-    type: annotation
+    resource: ../../src/Controller/Admin/
+    type: attribute
     prefix: /{_locale}/admin
     requirements:
         _locale: '%app_locales%'
     defaults:
         _locale: '%locale%'
 oai:
-    resource: '../../src/Controller/Oai/'
-    type: annotation
+    resource: ../../src/Controller/Oai/
+    type: attribute
     prefix: /

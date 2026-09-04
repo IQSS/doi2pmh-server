@@ -2,7 +2,6 @@
 
 namespace App\Services\Parser;
 
-use DateTimeImmutable;
 use stdClass;
 
 class DoiCslParser implements DoiParser {

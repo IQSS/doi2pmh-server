@@ -4,14 +4,13 @@ api_platform:
     show_webby: false
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
-    metadata_backward_compatibility_layer: false
-    allow_plain_identifiers: true
+    #allow_plain_identifiers: true
     patch_formats:
         json: ['application/merge-patch+json']
     swagger:
         versions: [3]
         api_keys:
-             apiKey:
+            JWT:
                 name: Authorization
                 type: header
     formats:
@@ -22,5 +21,8 @@ api_platform:
         html:
             mime_types: ['text/html']
     defaults:
+        stateless: true
+        cache_headers:
+            vary: ["Content-Type", "Authorization", "Origin"]
         pagination_enabled: false
         pagination_client_enabled: true

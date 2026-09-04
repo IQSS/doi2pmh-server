@@ -12,16 +12,16 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
 
-    public function __construct(private EntityManagerInterface $entityManager, private readonly \Symfony\Component\Security\Http\Authentication\AuthenticationUtils $authenticationUtils)
+    public function __construct(private EntityManagerInterface $entityManager, private readonly AuthenticationUtils $authenticationUtils)
     {
     }
 
     /**
-     * @Route("/login", name="security_login")
      * @param AuthenticationUtils $authenticationUtils
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/login', name: 'security_login')]
     public function login(): Response
     {
         // get the login error if there is one
@@ -36,10 +36,10 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/logout", name="security_logout", schemes={"https"})
      * @return void
      * @noinspection PhpUnused
      */
+    #[Route(path: '/logout', name: 'security_logout', schemes: ['https'])]
     public function logout():void
     {
         // Nothing to do!

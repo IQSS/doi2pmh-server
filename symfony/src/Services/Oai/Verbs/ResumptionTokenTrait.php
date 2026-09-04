@@ -2,11 +2,6 @@
 
 namespace App\Services\Oai\Verbs;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Criteria;
-use App\Entity\Doi;
-use App\Services\Oai\Arguments\ResumptionToken;
-
 /**
  * Trait used to manage resumption token implementation
  * Trait ResumptionTokenTrait

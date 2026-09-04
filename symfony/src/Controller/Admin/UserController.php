@@ -34,16 +34,16 @@ class UserController extends AbstractController
         private TranslatorInterface $translator,
         private UserPasswordHasherInterface $passwordEncoder,
         private MailerService $mailer,
-        private readonly \Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface $JWTManager
+        private readonly JWTTokenManagerInterface $JWTManager
     )
     {
     }
 
     /**
-     * @Route("/user/", name="user_index", methods={"GET"})
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/user/', name: 'user_index', methods: ['GET'])]
     public function index(): Response
     {
         $users = $this->entityManager->getRepository(User::class)->findAll();
@@ -53,10 +53,10 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/edit", name="user_index_edit", methods={"GET"})
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/user/edit', name: 'user_index_edit', methods: ['GET'])]
     public function indexEdit(): Response
     {
         return $this->render('admin/user/edit.html.twig', [
@@ -66,11 +66,11 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/edit", name="user_edit", methods={"POST"})
      * @param Request $request
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/user/edit', name: 'user_edit', methods: ['POST'])]
     public function edit(Request $request): Response
     {
         /**
@@ -109,12 +109,12 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/{userToEdit}/edit/isAdmin", name="user_edit_admin", methods={"POST"})
      * @param Request $request
      * @param User $userToEdit
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/user/{userToEdit}/edit/isAdmin', name: 'user_edit_admin', methods: ['POST'])]
     public function editIsAdmin(Request $request, User $userToEdit): Response
     {
         /**
@@ -136,12 +136,12 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/{folder}/create", methods={"POST"}, name="user_create")
      * @param Request $request
      * @param Folder $folder
      * @return RedirectResponse
      * @noinspection PhpUnused
      */
+    #[Route(path: '/user/{folder}/create', methods: ['POST'], name: 'user_create')]
     public function create(Request $request, Folder $folder): RedirectResponse
     {
         if (empty(Configuration::getConfigurationInstance($this->entityManager)->getAdminEmail())) {
@@ -194,13 +194,13 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/{user}/{folder}/remove", methods={"POST"}, name="user_removeFromFolder")
      * @param Request $request
      * @param User $user
      * @param Folder $folder
      * @return RedirectResponse
      * @noinspection PhpUnused
      */
+    #[Route(path: '/user/{user}/{folder}/remove', methods: ['POST'], name: 'user_removeFromFolder')]
     public function removeFromFolder(Request $request, User $user, Folder $folder): RedirectResponse
     {
         $form = $this->createForm(UserDeleteType::class);
@@ -226,11 +226,11 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/{user}/delete", methods={"GET"}, name="user_delete_index")
      * @param User $user
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/user/{user}/delete', methods: ['GET'], name: 'user_delete_index')]
     public function deleteIndex(User $user): Response
     {
         return $this->render('admin/modals/user/delete.html.twig', [
@@ -240,11 +240,11 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/{user}/delete", methods={"POST"}, name="user_delete")
      * @param User $user
      * @return RedirectResponse
      * @noinspection PhpUnused
      */
+    #[Route(path: '/user/{user}/delete', methods: ['POST'], name: 'user_delete')]
     public function delete(User $user): RedirectResponse
     {
         if (!$this->getUser()->isAdmin()) {
@@ -260,20 +260,20 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/autocomplete/{email?}", name="user_autocomplete", methods={"GET"})
      * @param string|null $email
      * @return JsonResponse
      * @noinspection PhpUnused
      */
+    #[Route(path: '/user/autocomplete/{email?}', name: 'user_autocomplete', methods: ['GET'])]
     public function autocomplete(?string $email = ''): JsonResponse
     {
         return new JsonResponse($this->entityManager->getRepository(User::class)->findLike(['email' => $email]));
     }
 
     /**
-     * @Route("/user/apiToken", name="user_api_token", methods={"GET"})
      * @return JsonResponse
      */
+    #[Route(path: '/user/apiToken', name: 'user_api_token', methods: ['GET'])]
     public function apiToken(): JsonResponse
     {
         $token = $this->JWTManager->create($this->getUser());

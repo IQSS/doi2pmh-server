@@ -27,10 +27,10 @@ class ConfigController extends AbstractController
     }
 
     /**
-     * @Route("/configuration/edit", methods={"GET"}, name="config_edit_index")
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/configuration/edit', methods: ['GET'], name: 'config_edit_index')]
     public function editIndex(): Response
     {
         /**
@@ -46,11 +46,11 @@ class ConfigController extends AbstractController
 
 
     /**
-     * @Route("/configuration/edit", methods={"POST"}, name="config_edit")
      * @param Request $request
      * @return RedirectResponse
      * @noinspection PhpUnused
      */
+    #[Route(path: '/configuration/edit', methods: ['POST'], name: 'config_edit')]
     public function edit(Request $request): RedirectResponse
     {
         $form = $this->createForm(ConfigurationType::class);
@@ -101,10 +101,10 @@ class ConfigController extends AbstractController
     }
 
     /**
-     * @Route("/configuration/refreshDoi", methods={"GET"}, name="config_refresh_doi")
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/configuration/refreshDoi', methods: ['GET'], name: 'config_refresh_doi')]
     public function refresh(): Response
     {
         header('Content-Type: text/event-stream');

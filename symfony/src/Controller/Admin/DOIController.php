@@ -35,22 +35,22 @@ class DOIController extends AbstractController
     }
 
     /**
-     * @Route("/doi/", methods={"GET"}, name="doi_index")
      * @return RedirectResponse
      * @noinspection PhpUnused
      */
+    #[Route(path: '/doi/', methods: ['GET'], name: 'doi_index')]
     public function index(): RedirectResponse
     {
         return $this->redirectToRoute('folder_index');
     }
 
     /**
-     * @Route("/doi/{folder}/create", methods={"POST"}, name="doi_create")
      * @param Request $request
      * @param Folder $folder
      * @return RedirectResponse
      * @noinspection PhpUnused
      */
+    #[Route(path: '/doi/{folder}/create', methods: ['POST'], name: 'doi_create')]
     public function create(Request $request, Folder $folder): RedirectResponse
     {
         $form = $this->createForm(DoiType::class);
@@ -82,11 +82,11 @@ class DOIController extends AbstractController
     }
 
     /**
-     * @Route("/doi/{doi}/edit", methods={"GET"}, name="doi_edit_index")
      * @param Doi $doi
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/doi/{doi}/edit', methods: ['GET'], name: 'doi_edit_index')]
     public function editIndex(Doi $doi): Response
     {
         return $this->render('admin/modals/doi/edit.html.twig', [
@@ -97,12 +97,12 @@ class DOIController extends AbstractController
 
 
     /**
-     * @Route("/doi/{doi}/edit", methods={"POST"}, name="doi_edit")
      * @param Request $request
      * @param Doi $doi
      * @return RedirectResponse
      * @noinspection PhpUnused
      */
+    #[Route(path: '/doi/{doi}/edit', methods: ['POST'], name: 'doi_edit')]
     public function edit(Request $request, Doi $doi): RedirectResponse
     {
         $form = $this->createForm(DoiType::class);
@@ -124,11 +124,11 @@ class DOIController extends AbstractController
     }
 
     /**
-     * @Route("/doi/{doi}/delete", methods={"GET"}, name="doi_delete_index")
      * @param Doi $doi
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/doi/{doi}/delete', methods: ['GET'], name: 'doi_delete_index')]
     public function deleteIndex(Doi $doi): Response
     {
         return $this->render('admin/modals/doi/delete.html.twig', [
@@ -138,12 +138,12 @@ class DOIController extends AbstractController
     }
 
     /**
-     * @Route("/doi/{doi}/delete", methods={"POST"}, name="doi_delete")
      * @param Request $request
      * @param Doi $doi
      * @return RedirectResponse
      * @noinspection PhpUnused
      */
+    #[Route(path: '/doi/{doi}/delete', methods: ['POST'], name: 'doi_delete')]
     public function delete(Request $request, Doi $doi): RedirectResponse
     {
         $form = $this->createForm(DoiDeleteType::class);

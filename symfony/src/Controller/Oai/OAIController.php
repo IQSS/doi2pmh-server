@@ -26,10 +26,10 @@ class OAIController extends AbstractController
     }
 
     /**
-     * @Route("/oai/", methods={"GET"}, name="oai_index")
      * @param Request $request
      * @return Response
      */
+    #[Route(path: '/oai/', methods: ['GET'], name: 'oai_index')]
     public function index(Request $request): Response
     {
         /**
@@ -43,9 +43,9 @@ class OAIController extends AbstractController
         return $verb->getXmlResponse();
     }
     /**
-     * @Route("/oai/refresh", methods={"GET"}, name="oai_refresh")
      * @return Response
      */
+    #[Route(path: '/oai/refresh', methods: ['GET'], name: 'oai_refresh')]
     public function refreshData(): Response
     {
         $count = $this->doiService->refreshDois();
