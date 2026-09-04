@@ -34,7 +34,7 @@ Here are the more used ones:
     * database
     * node
     * lb
-    * mailhog
+    * mailpit
 * `make yarn "encore dev --watch"`
   * Compile CSS/JS/Images
   * Watch files to compile on change

@@ -61,14 +61,14 @@ services:
     depends_on:
       - database
 
-  mailhog:
-    image: mailhog/mailhog:latest
+  mailpit:
+    image: axllent/mailpit:latest
     restart: unless-stopped
     ports:
-      - "25:1025"
+      - "1025:1025"
     labels:
       - traefik.enable=true
-      - traefik.http.services.mailhog.loadbalancer.server.port=8025
+      - traefik.http.services.mailpit.loadbalancer.server.port=8025
 
 
 volumes:
