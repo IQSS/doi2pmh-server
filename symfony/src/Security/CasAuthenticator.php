@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Security;
 
 use App\Entity\Configuration;
-use App\Entity\User;
 use App\Services\FolderService;
 use phpCAS;
 use Symfony\Component\HttpFoundation\RedirectResponse;

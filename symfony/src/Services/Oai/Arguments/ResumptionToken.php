@@ -110,7 +110,7 @@ class ResumptionToken implements ArgumentInterface
     /**
      *  Set the resumption token expiration date (now + 1 day)
      */
-    private function setExpirationDate()
+    private function setExpirationDate(): void
     {
         $this->expirationDate = date(self::DATE_FORMAT, strtotime("now") + self::SECONDS_BEFORE_EXPIRATION);
     }
@@ -141,7 +141,7 @@ class ResumptionToken implements ArgumentInterface
      * The resumption token format is argumentName=argumentValue,argumentName=argumentValue...
      * @throws Exception
      */
-    public function parseTokenContent()
+    public function parseTokenContent(): void
     {
         // explode arguments
         $arguments = explode(',', $this->value);

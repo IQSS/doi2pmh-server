@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Configuration;
 use App\Entity\Folder;
 use App\Entity\User;
@@ -19,7 +20,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -61,7 +61,7 @@ class UserController extends AbstractController
     {
         return $this->render('admin/user/edit.html.twig', [
             'user' => $this->getUser(),
-            'passwordForm' => $this->createForm(UserEditType::class, $this->getUser())->createView()
+            'passwordForm' => $this->createForm(UserEditType::class, $this->getUser())
         ]);
     }
 
@@ -235,7 +235,7 @@ class UserController extends AbstractController
     {
         return $this->render('admin/modals/user/delete.html.twig', [
             'user' => $user,
-            'userDeleteForm' => $this->createForm(UserDeleteType::class)->createView()
+            'userDeleteForm' => $this->createForm(UserDeleteType::class)
         ]);
     }
 

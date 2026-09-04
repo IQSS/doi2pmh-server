@@ -12,7 +12,7 @@ return RectorConfig::configure()
         __DIR__ . '/tests',
     ])
     ->withImportNames(importShortClasses: false)
-    ->withPreparedSets(symfonyCodeQuality: true)
+    ->withPreparedSets(symfonyCodeQuality: true, typeDeclarations: true)
     ->withComposerBased(symfony: true)
     ->withConfiguredRule(AnnotationToAttributeRector::class, [
         new AnnotationToAttribute('Symfony\Component\Routing\Annotation\Route'),

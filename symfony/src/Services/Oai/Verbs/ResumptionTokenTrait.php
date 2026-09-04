@@ -9,7 +9,7 @@ namespace App\Services\Oai\Verbs;
  */
 trait ResumptionTokenTrait
 {
-    public function updateResumptionToken(int $listSize){
+    public function updateResumptionToken(int $listSize): void{
         $this->arguments['resumptionToken']->setListSize($listSize);
 
         $this->arguments['resumptionToken']->incrementCursor();

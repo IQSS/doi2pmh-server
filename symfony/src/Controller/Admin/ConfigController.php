@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Configuration;
 use App\Form\Configuration\ConfigurationType;
 use App\Services\DoiService;
@@ -10,7 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -39,7 +39,7 @@ class ConfigController extends AbstractController
         $configuration = Configuration::getConfigurationInstance($this->entityManager);
 
         return $this->render('admin/configuration/edit.html.twig', [
-            'configForm' => $this->createForm(ConfigurationType::class, $configuration)->createView(),
+            'configForm' => $this->createForm(ConfigurationType::class, $configuration),
             'doiUpdatedLogs' => $configuration->getUpdatedDoiLogs()
         ]);
     }

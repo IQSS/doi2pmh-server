@@ -2,9 +2,9 @@
 
 namespace App\State;
 
+use Symfony\Bundle\SecurityBundle\Security;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use Symfony\Component\Security\Core\Security;
 
 final class FolderProvider implements ProviderInterface
 {

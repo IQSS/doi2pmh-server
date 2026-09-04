@@ -17,7 +17,7 @@ final class DoiProvider implements ProviderInterface
     {
         if ($operation instanceof CollectionOperationInterface){
             $data = $this->collectionProvider->provide($operation, $uriVariables, $context);
-            return array_filter($data, function($doi) {
+            return array_filter($data, function($doi): bool {
                 return !$doi->isDeleted();
             });
         } else {

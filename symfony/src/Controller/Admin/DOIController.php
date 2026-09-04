@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use Symfony\Component\Routing\Attribute\Route;
 use App\Services\FolderService;
 use Exception;
 use Doctrine\ORM\EntityManagerInterface;
@@ -9,7 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use App\Entity\Doi;
@@ -91,7 +91,7 @@ class DOIController extends AbstractController
     {
         return $this->render('admin/modals/doi/edit.html.twig', [
             'doi' => $doi,
-            'doiEditForm' => $this->createForm(DoiType::class, $doi)->createView()
+            'doiEditForm' => $this->createForm(DoiType::class, $doi)
         ]);
     }
 
@@ -133,7 +133,7 @@ class DOIController extends AbstractController
     {
         return $this->render('admin/modals/doi/delete.html.twig', [
             'doi' => $doi,
-            'doiDeleteForm' => $this->createForm(DoiDeleteType::class)->createView()
+            'doiDeleteForm' => $this->createForm(DoiDeleteType::class)
         ]);
     }
 

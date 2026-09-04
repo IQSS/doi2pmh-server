@@ -20,7 +20,7 @@ class Identify implements OaiVerbInterface
     /**
      * @see OaiVerbInterface
      */
-    public function setArguments()
+    public function setArguments(): void
     {
         $this->arguments = ['verb' => new Verb($this)];
     }

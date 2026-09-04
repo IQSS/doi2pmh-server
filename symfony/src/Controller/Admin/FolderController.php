@@ -2,13 +2,13 @@
 
 namespace App\Controller\Admin;
 
+use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Configuration;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use App\Entity\Folder;
 use App\Entity\User;
@@ -60,11 +60,11 @@ class FolderController extends AbstractController
         return $this->render('admin/index.html.twig', [
             'folder' => $this->entityManager->getRepository(Folder::class)->find($id),
             'steps' => $this->folderService->getParents($folder),
-            'folderCreateForm' => $this->createForm(FolderType::class)->createView(),
-            'folderEditForm' => $this->createForm(FolderType::class, $folder)->createView(),
-            'folderDeleteForm' => $this->createForm(FolderDeleteType::class, $folder)->createView(),
-            'doiCreateForm' => $this->createForm(DOIType::class)->createView(),
-            'userAddForm' => $this->createForm(UserType::class)->createView()
+            'folderCreateForm' => $this->createForm(FolderType::class),
+            'folderEditForm' => $this->createForm(FolderType::class, $folder),
+            'folderDeleteForm' => $this->createForm(FolderDeleteType::class, $folder),
+            'doiCreateForm' => $this->createForm(DOIType::class),
+            'userAddForm' => $this->createForm(UserType::class)
         ]);
     }
 
@@ -183,7 +183,7 @@ class FolderController extends AbstractController
         return $this->render('admin/modals/user/deleteFromFolder.html.twig', [
             'user' => $user,
             'folder' => $folder,
-            'userDeleteForm' => $this->createForm(UserDeleteType::class)->createView()
+            'userDeleteForm' => $this->createForm(UserDeleteType::class)
         ]);
     }
 }

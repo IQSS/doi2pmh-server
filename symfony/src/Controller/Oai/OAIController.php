@@ -2,6 +2,7 @@
 
 namespace App\Controller\Oai;
 
+use Symfony\Component\Routing\Attribute\Route;
 use App\Services\DoiService;
 use App\Services\Oai\OaiService;
 use App\Services\Oai\Verbs\OaiVerbInterface;
@@ -9,7 +10,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class OAIController

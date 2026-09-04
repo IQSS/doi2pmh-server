@@ -191,7 +191,7 @@ class Folder
             return $this->dois;
         }
 
-        return $this->dois->filter(function (Doi $doi) {
+        return $this->dois->filter(function (Doi $doi): bool {
            return !$doi->isDeleted();
         });
     }
