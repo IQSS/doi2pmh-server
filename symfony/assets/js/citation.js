@@ -16,11 +16,15 @@ doi2pmh.citation = window.doi2pmh.citation || {
     },
 
     initAutocompleteCitation: () => {
-        $('.uri').on('input', (e) => {
-            doi2pmh.citation.initTargets(e.target)
-            doi2pmh.citation.resetFields()
-            doi2pmh.citation.autocompleteCitation(doi2pmh.citation.uriField.val())
-        })
+        document.querySelectorAll('.uri').forEach((element) => {
+            element.addEventListener('input', (e) => {
+                doi2pmh.citation.initTargets(e.target);
+                doi2pmh.citation.resetFields();
+                doi2pmh.citation.autocompleteCitation(
+                    doi2pmh.citation.uriField.value
+                );
+            });
+        });
 
         if (document.getElementById('doi_create_submit')){
             document.getElementById('doi_create_submit').addEventListener('click', (e) => {
@@ -30,7 +34,7 @@ doi2pmh.citation = window.doi2pmh.citation || {
     },
 
     initTargets: (target) => {
-        let modal = $(target.closest('.modal-content'))
+        let modal = target.closest('.modal-content')
         doi2pmh.citation.uriField = modal.find('.uri')
         doi2pmh.citation.citationField = modal.find('.citation')
         doi2pmh.citation.submitButton = modal.find('.doi_submit')
@@ -38,27 +42,35 @@ doi2pmh.citation = window.doi2pmh.citation || {
         doi2pmh.citation.spinner = modal.find('.spinner')
     },
 
-    autocompleteCitation: (doiUri) => {
+    autocompleteCitation: async (doiUri) => {
         if (doiUri.length > 0) {
             try {
-                // Throw exception if is not a doi url
-                doiUri = doi2pmh.citation.transformDoiUri(doiUri)
-                doi2pmh.citation.submitButton.hide()
-                doi2pmh.citation.spinner.show()
-                $.get(
-                    {
-                        url: doiUri,
-                        success: (result) => {
-                            doi2pmh.citation.citationField.val(result)
-                        },
-                        error: () => {
-                            doi2pmh.citation.formatInvalidUri()
-                        },
-                        beforeSend: (xhr) => xhr.setRequestHeader('Accept', 'text/x-bibliography; style=harvard-cite-them-right'),
+                // Throw exception if is not a DOI URL
+                doiUri = doi2pmh.citation.transformDoiUri(doiUri);
+
+                doi2pmh.citation.submitButton.style.display = 'none';
+                doi2pmh.citation.spinner.style.display = '';
+
+                const response = await fetch(doiUri, {
+                    headers: {
+                        'Accept': 'text/x-bibliography; style=harvard-cite-them-right'
                     }
-                ).done(() => {doi2pmh.citation.spinner.hide(); doi2pmh.citation.submitButton.show()})
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error ${response.status}`);
+                }
+
+                const result = await response.text();
+
+                doi2pmh.citation.citationField.value = result;
+
             } catch (_) {
-                doi2pmh.citation.formatInvalidUri()
+                doi2pmh.citation.formatInvalidUri();
+
+            } finally {
+                doi2pmh.citation.spinner.style.display = 'none';
+                doi2pmh.citation.submitButton.style.display = '';
             }
         }
     },

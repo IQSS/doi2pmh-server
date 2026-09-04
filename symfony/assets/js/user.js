@@ -184,21 +184,30 @@ doi2pmh.user = window.doi2pmh.user || {
     initApiToken: () => {
         const apiTokenModal = document.getElementById("apiTokenModalToggle")
         doi2pmh.user.apiTokenInput = document.getElementById("apiToken")
-        apiTokenModal.addEventListener("click", doi2pmh.user.getApiToken)
+        apiTokenModal?.addEventListener("click", doi2pmh.user.getApiToken)
 
         const apiTokenCopyButton = document.getElementById("apiTokenCopy")
-        apiTokenCopyButton.addEventListener("click", doi2pmh.user.copyTokenToClipboard)
+        apiTokenCopyButton?.addEventListener("click", doi2pmh.user.copyTokenToClipboard)
     },
 
-    getApiToken: () => {
-        $.get(
-            {
-                url: doi2pmh.user.baseUrlToken,
-                success: (result) => {
-                    doi2pmh.user.apiTokenInput.value = result
-                }
+    getApiToken: async () => {
+        try {
+            const response = await fetch(doi2pmh.user.baseUrlToken);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error ${response.status}`);
             }
-        ).done(() => {$("#apiTokenModal").modal('show')})
+
+            const result = await response.text();
+
+            doi2pmh.user.apiTokenInput.value = result;
+
+            const modal = new bootstrap.Modal('#apiTokenModal');
+            modal.show();
+
+        } catch (error) {
+            console.error('Erreur lors de la récupération du token API :', error);
+        }
     },
 
     copyTokenToClipboard: () => {
