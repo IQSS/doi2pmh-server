@@ -23,7 +23,7 @@ Configuration file: [`doi2pmh-server/docker/traefik/traefik.yml`](../docker/trae
 The database service loads the [`.env`](../.env) file data to set mysql variables.
 No need to edit the `docker-compose.yml` file edit the [`.env`](../.env) file instead.
 
-Image: https://registry.hub.docker.com/_/mariadb tagg 10
+Image: https://registry.hub.docker.com/_/mariadb tag 11
 
 ## `node`
 The node service is used to install and store node dependencies.

@@ -1,6 +1,6 @@
 # Prerequisite
 
-The default installation use Docker containers and has been tested with MariaDB 10.3.
+The default installation use Docker containers and has been tested with MariaDB 11.8.
 
 ## Installation of Docker on Ubuntu
 

@@ -1,7 +1,9 @@
 # CHANGELOG
 
 ## v1.2
-- requiere PHP 8.3
+- requiere PHP 8.4
+- MariaDB 11 recommended
+- multiples dependencies updates and upgrades
 
 ## v1.1
 - requiere PHP 8.1
