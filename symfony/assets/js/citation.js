@@ -35,11 +35,11 @@ doi2pmh.citation = window.doi2pmh.citation || {
 
     initTargets: (target) => {
         let modal = target.closest('.modal-content')
-        doi2pmh.citation.uriField = modal.find('.uri')
-        doi2pmh.citation.citationField = modal.find('.citation')
-        doi2pmh.citation.submitButton = modal.find('.doi_submit')
-        doi2pmh.citation.errorBlock = modal.find('.invalid-feedback')
-        doi2pmh.citation.spinner = modal.find('.spinner')
+        doi2pmh.citation.uriField = modal.querySelector('.uri')
+        doi2pmh.citation.citationField = modal.querySelector('.citation')
+        doi2pmh.citation.submitButton = modal.querySelector('.doi_submit')
+        doi2pmh.citation.errorBlock = modal.querySelector('.invalid-feedback')
+        doi2pmh.citation.spinner = modal.querySelector('.spinner')
     },
 
     autocompleteCitation: async (doiUri) => {
@@ -76,12 +76,12 @@ doi2pmh.citation = window.doi2pmh.citation || {
     },
 
     formatInvalidUri: () => {
-        doi2pmh.citation.citationField.val('')
+        doi2pmh.citation.citationField.value = ''
         doi2pmh.citation.uriField.addClass('is-invalid')
         doi2pmh.citation.uriField.after(doi2pmh.citation.errorBlock)
-        doi2pmh.citation.errorBlock.show()
-        doi2pmh.citation.spinner.hide();
-        doi2pmh.citation.submitButton.show()
+        doi2pmh.citation.errorBlock.style.display = ''
+        doi2pmh.citation.spinner.style.display = 'none'
+        doi2pmh.citation.submitButton.style.display = ''
     },
 
     transformDoiUri: (doiUri) => {
@@ -97,11 +97,11 @@ doi2pmh.citation = window.doi2pmh.citation || {
     },
 
     resetFields: () => {
-        doi2pmh.citation.citationField.val('')
-        doi2pmh.citation.uriField.removeClass('is-invalid')
-        doi2pmh.citation.errorBlock.hide()
-        doi2pmh.citation.spinner.hide();
-        doi2pmh.citation.submitButton.show()
+        doi2pmh.citation.citationField.value = ''
+        doi2pmh.citation.uriField.classList.remove('is-invalid')
+        doi2pmh.citation.errorBlock.style.display = 'none'
+        doi2pmh.citation.spinner.style.display = 'none'
+        doi2pmh.citation.submitButton.style.display = ''
     }
 }
 

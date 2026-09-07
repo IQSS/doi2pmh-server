@@ -65,7 +65,7 @@
             {% if folder.getChildren()|length == 0 %}
                 <p>{{ 'admin.folder.empty'|trans }}</p>
             {% else %}
-                <ul class="folders-list mr-5">
+                <ul class="folders-list me-5">
                 {% for child in folder.getChildren() %}
                     <li class="folders-list-item border-0">
                         <a class="btn btn-outline-dark border-0" title="{{ child.name}}" href="{{ path('folder_index', {id: child.id}) }}">
