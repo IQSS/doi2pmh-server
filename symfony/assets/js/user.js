@@ -199,7 +199,7 @@ doi2pmh.user = window.doi2pmh.user || {
                 throw new Error(`HTTP error ${response.status}`);
             }
 
-            const result = await response.text();
+            const result = await response.json();
 
             doi2pmh.user.apiTokenInput.value = result;
 
