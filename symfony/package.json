@@ -1,7 +1,7 @@
 {
     "devDependencies": {
-        "@symfony/webpack-encore": "^5.0.1",
-        "copy-webpack-plugin": "^11.0.0",
+        "@symfony/webpack-encore": "^7.2.0",
+        "copy-webpack-plugin": "^14.0.0",
         "core-js": "^3.0.0",
         "regenerator-runtime": "^0.13",
         "sass": "^1.68.0",
