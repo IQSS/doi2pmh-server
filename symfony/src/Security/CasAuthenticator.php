@@ -16,13 +16,13 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
+use Symfony\Component\Security\Http\SecurityRequestAttributes;
 
 /**
  * Class CasAuthenticator
@@ -83,7 +83,7 @@ class CasAuthenticator extends AbstractAuthenticator implements EventSubscriberI
             phpCAS::forceAuthentication();
 
             $request->getSession()->set(
-                Security::LAST_USERNAME,
+                SecurityRequestAttributes::LAST_USERNAME,
                 phpCAS::getUser()
             );
 
@@ -131,7 +131,7 @@ class CasAuthenticator extends AbstractAuthenticator implements EventSubscriberI
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?RedirectResponse
     {
         if ($request->hasSession()) {
-            $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
+            $request->getSession()->set(SecurityRequestAttributes::AUTHENTICATION_ERROR, $exception);
         }
         $url = $this->getLoginUrl();
 
