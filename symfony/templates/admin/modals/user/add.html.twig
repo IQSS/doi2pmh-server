@@ -4,9 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="folderModalLabel">{{ 'admin.form.folder.add.user.title'|trans ~ folder.name }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 {{ form_start(userAddForm, {action: path('user_create', {folder: folder.id}), method: 'POST', attr: {autocomplete: "off"}}) }}
@@ -15,7 +13,7 @@
             <div class="modal-footer">
                 {{ form_widget(userAddForm.submit) }}
                 {{ form_end(userAddForm) }}
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'admin.modal.cancel'|trans }}</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'admin.modal.cancel'|trans }}</button>
             </div>
         </div>
     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Configuration;
 use App\Entity\Folder;
 use App\Entity\User;
@@ -19,13 +20,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class UserController
  * @package App\Controller\Admin
- * @Route("/user", name="user_")
  */
 class UserController extends AbstractController
 {
@@ -34,16 +33,17 @@ class UserController extends AbstractController
         private EntityManagerInterface $entityManager,
         private TranslatorInterface $translator,
         private UserPasswordHasherInterface $passwordEncoder,
-        private MailerService $mailer
+        private MailerService $mailer,
+        private readonly JWTTokenManagerInterface $JWTManager
     )
     {
     }
 
     /**
-     * @Route("/", name="index", methods={"GET"})
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/user/', name: 'user_index', methods: ['GET'])]
     public function index(): Response
     {
         $users = $this->entityManager->getRepository(User::class)->findAll();
@@ -53,24 +53,24 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/edit", name="index_edit", methods={"GET"})
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/user/edit', name: 'user_index_edit', methods: ['GET'])]
     public function indexEdit(): Response
     {
         return $this->render('admin/user/edit.html.twig', [
             'user' => $this->getUser(),
-            'passwordForm' => $this->createForm(UserEditType::class, $this->getUser())->createView()
+            'passwordForm' => $this->createForm(UserEditType::class, $this->getUser())
         ]);
     }
 
     /**
-     * @Route("/edit", name="edit", methods={"POST"})
      * @param Request $request
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/user/edit', name: 'user_edit', methods: ['POST'])]
     public function edit(Request $request): Response
     {
         /**
@@ -109,12 +109,12 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{userToEdit}/edit/isAdmin", name="edit_admin", methods={"POST"})
      * @param Request $request
      * @param User $userToEdit
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/user/{userToEdit}/edit/isAdmin', name: 'user_edit_admin', methods: ['POST'])]
     public function editIsAdmin(Request $request, User $userToEdit): Response
     {
         /**
@@ -136,12 +136,12 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{folder}/create", methods={"POST"}, name="create")
      * @param Request $request
      * @param Folder $folder
      * @return RedirectResponse
      * @noinspection PhpUnused
      */
+    #[Route(path: '/user/{folder}/create', methods: ['POST'], name: 'user_create')]
     public function create(Request $request, Folder $folder): RedirectResponse
     {
         if (empty(Configuration::getConfigurationInstance($this->entityManager)->getAdminEmail())) {
@@ -194,13 +194,13 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{user}/{folder}/remove", methods={"POST"}, name="removeFromFolder")
      * @param Request $request
      * @param User $user
      * @param Folder $folder
      * @return RedirectResponse
      * @noinspection PhpUnused
      */
+    #[Route(path: '/user/{user}/{folder}/remove', methods: ['POST'], name: 'user_removeFromFolder')]
     public function removeFromFolder(Request $request, User $user, Folder $folder): RedirectResponse
     {
         $form = $this->createForm(UserDeleteType::class);
@@ -226,25 +226,25 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{user}/delete", methods={"GET"}, name="delete_index")
      * @param User $user
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/user/{user}/delete', methods: ['GET'], name: 'user_delete_index')]
     public function deleteIndex(User $user): Response
     {
         return $this->render('admin/modals/user/delete.html.twig', [
             'user' => $user,
-            'userDeleteForm' => $this->createForm(UserDeleteType::class)->createView()
+            'userDeleteForm' => $this->createForm(UserDeleteType::class)
         ]);
     }
 
     /**
-     * @Route("/{user}/delete", methods={"POST"}, name="delete")
      * @param User $user
      * @return RedirectResponse
      * @noinspection PhpUnused
      */
+    #[Route(path: '/user/{user}/delete', methods: ['POST'], name: 'user_delete')]
     public function delete(User $user): RedirectResponse
     {
         if (!$this->getUser()->isAdmin()) {
@@ -260,23 +260,23 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/autocomplete/{email?}", name="autocomplete", methods={"GET"})
      * @param string|null $email
      * @return JsonResponse
      * @noinspection PhpUnused
      */
+    #[Route(path: '/user/autocomplete/{email?}', name: 'user_autocomplete', methods: ['GET'])]
     public function autocomplete(?string $email = ''): JsonResponse
     {
         return new JsonResponse($this->entityManager->getRepository(User::class)->findLike(['email' => $email]));
     }
 
     /**
-     * @Route("/apiToken", name="api_token", methods={"GET"})
      * @return JsonResponse
      */
-    public function apiToken(JWTTokenManagerInterface $JWTManager): JsonResponse
+    #[Route(path: '/user/apiToken', name: 'user_api_token', methods: ['GET'])]
+    public function apiToken(): JsonResponse
     {
-        $token = $JWTManager->create($this->getUser());
-       return new JsonResponse($token);
+        $token = $this->JWTManager->create($this->getUser());
+        return new JsonResponse($token);
     }
 }

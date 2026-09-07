@@ -15,7 +15,7 @@ class ConfigurationService {
      * Return true if any of the data types are excluded from the OAI repository by the administrator
      * @param string|array $types
      */
-    public function isExcludedType(string|array $types)
+    public function isExcludedType(string|array $types): bool
     {
         if (!is_array($types)){
             $types = [$types];

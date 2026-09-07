@@ -5,10 +5,7 @@ use ApiPlatform\Metadata\DeleteOperationInterface;
 use App\Entity\Doi;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use App\Repository\FolderRepository;
 use App\Services\DoiService;
-use App\Services\FolderService;
-use Doctrine\ORM\EntityManagerInterface;
 
 class DoiProcessor implements ProcessorInterface
 {

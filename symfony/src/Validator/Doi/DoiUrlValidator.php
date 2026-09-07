@@ -19,7 +19,7 @@ class DoiUrlValidator extends ConstraintValidator
         $this->doiService = $doiService;
     }
 
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof DoiUrl) {
             throw new UnexpectedTypeException($constraint, DoiUrl::class);

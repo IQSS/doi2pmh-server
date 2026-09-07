@@ -10,6 +10,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Doi|null find($id, $lockMode = null, $lockVersion = null)
  * @method Doi|null findOneBy(array $criteria, array $orderBy = null)
  * @method Doi[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<Doi>
  */
 class DoiRepository extends ServiceEntityRepository
 {

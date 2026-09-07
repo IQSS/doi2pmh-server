@@ -5,7 +5,7 @@ The `docker-compose.yml` file contains 5 services:
 * `database` contains database
 * `node` contains node modules
 * `app` contains php and source code
-* `mailhog` contains mailhog to test emails
+* `mailpit` contains mailpit to test emails
 
 ## `lb`
 Traefik (pronounced traffic) is a modern HTTP reverse proxy and load balancer that makes deploying microservices easy.
@@ -23,7 +23,7 @@ Configuration file: [`doi2pmh-server/docker/traefik/traefik.yml`](../docker/trae
 The database service loads the [`.env`](../.env) file data to set mysql variables.
 No need to edit the `docker-compose.yml` file edit the [`.env`](../.env) file instead.
 
-Image: https://registry.hub.docker.com/_/mariadb tagg 10
+Image: https://registry.hub.docker.com/_/mariadb tag 11
 
 ## `node`
 The node service is used to install and store node dependencies.
@@ -42,12 +42,12 @@ The following configuration is present in [`doi2pmh-server/docker/php/files`](..
 * [`php.ini`](../docker/php/files/usr/local/etc/php/conf.d/php.ini) configuration file
 * Apache configuration file [`000-default.conf`](../docker/php/files/etc/apache2/sites-enabled/000-default.conf).
 
-## `mailhog`
+## `mailpit`
 
-Mailhog is a simple SMTP server for email testing.
+Mailpit is a simple SMTP server for email testing.
 
-Image: https://registry.hub.docker.com/r/mailhog/mailhog tag latest
-Repository: https://github.com/mailhog/MailHog
+Image: https://registry.hub.docker.com/r/axllent/mailpit tag latest
+Repository: https://github.com/axllent/mailpit
 
 [Back to summary](./00-summary.md)
 

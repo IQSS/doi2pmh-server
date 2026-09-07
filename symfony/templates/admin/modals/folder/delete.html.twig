@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">{{ 'admin.form.folder.delete.title'|trans }}</h3>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <div class="modal-message">
@@ -19,7 +19,7 @@
                 {% endif %}
                     {{ form_start(folderDeleteForm, {action: path('folder_delete', {folder: folder.id}), method: 'POST'}) }}
                     {{ form_widget(folderDeleteForm.submit, {'attr': {'class': 'btn ' ~ (folderHasDoi ? 'btn-danger' : 'btn-primary')}}) }}
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'admin.modal.cancel'|trans }}</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'admin.modal.cancel'|trans }}</button>
                     {{ form_end(folderDeleteForm) }}
                 </div>
             </div>

@@ -2,13 +2,13 @@
 
 namespace App\Controller\Admin;
 
+use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Configuration;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use App\Entity\Folder;
 use App\Entity\User;
@@ -23,7 +23,6 @@ use App\Services\FolderService;
 /**
  * Class FolderController
  * @package App\Controller\Admin
- * @Route("/folder", name="folder_")
  */
 class FolderController extends AbstractController
 {
@@ -41,11 +40,11 @@ class FolderController extends AbstractController
     }
 
     /**
-     * @Route("/{id?}", methods={"GET"}, name="index")
      * @param mixed $id
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/folder/{id?}', methods: ['GET'], name: 'folder_index')]
     public function index($id): Response
     {
         if ($this->getUser()->isFirstConnexion() && !$this->configuration->isCasAuthentication()) {
@@ -61,21 +60,21 @@ class FolderController extends AbstractController
         return $this->render('admin/index.html.twig', [
             'folder' => $this->entityManager->getRepository(Folder::class)->find($id),
             'steps' => $this->folderService->getParents($folder),
-            'folderCreateForm' => $this->createForm(FolderType::class)->createView(),
-            'folderEditForm' => $this->createForm(FolderType::class, $folder)->createView(),
-            'folderDeleteForm' => $this->createForm(FolderDeleteType::class, $folder)->createView(),
-            'doiCreateForm' => $this->createForm(DOIType::class)->createView(),
-            'userAddForm' => $this->createForm(UserType::class)->createView()
+            'folderCreateForm' => $this->createForm(FolderType::class),
+            'folderEditForm' => $this->createForm(FolderType::class, $folder),
+            'folderDeleteForm' => $this->createForm(FolderDeleteType::class, $folder),
+            'doiCreateForm' => $this->createForm(DOIType::class),
+            'userAddForm' => $this->createForm(UserType::class)
         ]);
     }
 
     /**
-     * @Route("/{folder}/create", methods={"POST"}, name="create")
      * @param Request $request
      * @param Folder $folder
      * @return RedirectResponse
      * @noinspection PhpUnused
      */
+    #[Route(path: '/folder/{folder}/create', methods: ['POST'], name: 'folder_create')]
     public function create(Request $request, Folder $folder): RedirectResponse
     {
         $form = $this->createForm(FolderType::class);
@@ -103,12 +102,12 @@ class FolderController extends AbstractController
     }
 
     /**
-     * @Route("/{folder}/edit", methods={"POST"}, name="edit")
      * @param Request $request
      * @param Folder $folder
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/folder/{folder}/edit', methods: ['POST'], name: 'folder_edit')]
     public function edit(Request $request, Folder $folder): Response
     {
         $form = $this->createForm(FolderType::class);
@@ -129,12 +128,12 @@ class FolderController extends AbstractController
     }
 
     /**
-     * @Route("/{folder}/delete", methods={"POST"}, name="delete")
      * @param Request $request
      * @param Folder $folder
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/folder/{folder}/delete', methods: ['POST'], name: 'folder_delete')]
     public function delete(Request $request, Folder $folder): Response
     {
         $form = $this->createForm(FolderDeleteType::class);
@@ -173,18 +172,18 @@ class FolderController extends AbstractController
     }
 
     /**
-     * @Route("/{folder}/{user}/delete", methods={"GET"}, name="delete_user_index")
      * @param Folder $folder
      * @param User $user
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/folder/{folder}/{user}/delete', methods: ['GET'], name: 'folder_delete_user_index')]
     public function deleteIndex(Folder $folder, User $user): Response
     {
         return $this->render('admin/modals/user/deleteFromFolder.html.twig', [
             'user' => $user,
             'folder' => $folder,
-            'userDeleteForm' => $this->createForm(UserDeleteType::class)->createView()
+            'userDeleteForm' => $this->createForm(UserDeleteType::class)
         ]);
     }
 }

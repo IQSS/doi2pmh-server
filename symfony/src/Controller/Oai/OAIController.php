@@ -2,6 +2,7 @@
 
 namespace App\Controller\Oai;
 
+use Symfony\Component\Routing\Attribute\Route;
 use App\Services\DoiService;
 use App\Services\Oai\OaiService;
 use App\Services\Oai\Verbs\OaiVerbInterface;
@@ -9,12 +10,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class OAIController
  * @package App\Controller\Oai
- * @Route("/oai", name="oai_")
  */
 class OAIController extends AbstractController
 {
@@ -27,10 +26,10 @@ class OAIController extends AbstractController
     }
 
     /**
-     * @Route("/", methods={"GET"}, name="index")
      * @param Request $request
      * @return Response
      */
+    #[Route(path: '/oai/', methods: ['GET'], name: 'oai_index')]
     public function index(Request $request): Response
     {
         /**
@@ -44,9 +43,9 @@ class OAIController extends AbstractController
         return $verb->getXmlResponse();
     }
     /**
-     * @Route("/refresh", methods={"GET"}, name="refresh")
      * @return Response
      */
+    #[Route(path: '/oai/refresh', methods: ['GET'], name: 'oai_refresh')]
     public function refreshData(): Response
     {
         $count = $this->doiService->refreshDois();

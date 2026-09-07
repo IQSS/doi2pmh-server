@@ -62,7 +62,7 @@ trait ArgumentFilterTrait
     /**
      *  Filter by folder (set)
      */
-    private function filterSet()
+    private function filterSet(): ArrayCollection
     {
         return new ArrayCollection($this->getArguments()['set']->getFolder()->getDoisChildren());
     }
@@ -79,7 +79,7 @@ trait ArgumentFilterTrait
         $fromValue = $fromDateTime->getTimestamp();
 
         /** @var Doi $doi */
-        return $dois->filter(function ($doi) use ($fromValue){
+        return $dois->filter(function ($doi) use ($fromValue): bool{
             return $doi->getMostRecentChange()->getTimestamp() >= $fromValue;
         });
     }
@@ -96,7 +96,7 @@ trait ArgumentFilterTrait
         $untilValue = $untilDateTime->getTimestamp();
 
         /** @var Doi $doi */
-        return $dois->filter(function ($doi) use ($untilValue){
+        return $dois->filter(function ($doi) use ($untilValue): bool{
             return $doi->getMostRecentChange()->getTimestamp() <= $untilValue;
         });
     }

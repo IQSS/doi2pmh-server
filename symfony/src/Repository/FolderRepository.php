@@ -12,6 +12,7 @@ use App\Services\Oai\Arguments\ResumptionToken;
  * @method Folder|null findOneBy(array $criteria, array $orderBy = null)
  * @method Folder[]    findAll()
  * @method Folder[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<Folder>
  */
 class FolderRepository extends ServiceEntityRepository
 {

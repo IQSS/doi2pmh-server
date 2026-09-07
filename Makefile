@@ -95,6 +95,9 @@ docker-debug: ## Rebuild and run in attached mode all containers or the specifie
 	@make stop
 	@docker compose up --no-deps $(filter-out $@,$(MAKECMDGOALS))
 
+rector:
+	@docker compose run --rm app bash -c "./vendor/bin/rector"
+
 # https://stackoverflow.com/a/6273809/1826109
 %:
 	@:

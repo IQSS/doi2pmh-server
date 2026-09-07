@@ -17,7 +17,7 @@ trait ArgumentTrait
         return $this->value;
     }
 
-    public function setValue(?string $value)
+    public function setValue(?string $value): void
     {
         if ($value !== null && strpos($value, 'amp;')) {
             $value = substr($value, 0, 4);

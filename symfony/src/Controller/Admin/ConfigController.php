@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Configuration;
 use App\Form\Configuration\ConfigurationType;
 use App\Services\DoiService;
@@ -10,13 +11,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class ConfigController
  * @package App\Controller\Admin
- * @Route("/configuration", name="config_")
  */
 class ConfigController extends AbstractController
 {
@@ -28,10 +27,10 @@ class ConfigController extends AbstractController
     }
 
     /**
-     * @Route("/edit", methods={"GET"}, name="edit_index")
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/configuration/edit', methods: ['GET'], name: 'config_edit_index')]
     public function editIndex(): Response
     {
         /**
@@ -40,18 +39,18 @@ class ConfigController extends AbstractController
         $configuration = Configuration::getConfigurationInstance($this->entityManager);
 
         return $this->render('admin/configuration/edit.html.twig', [
-            'configForm' => $this->createForm(ConfigurationType::class, $configuration)->createView(),
+            'configForm' => $this->createForm(ConfigurationType::class, $configuration),
             'doiUpdatedLogs' => $configuration->getUpdatedDoiLogs()
         ]);
     }
 
 
     /**
-     * @Route("/edit", methods={"POST"}, name="edit")
      * @param Request $request
      * @return RedirectResponse
      * @noinspection PhpUnused
      */
+    #[Route(path: '/configuration/edit', methods: ['POST'], name: 'config_edit')]
     public function edit(Request $request): RedirectResponse
     {
         $form = $this->createForm(ConfigurationType::class);
@@ -102,10 +101,10 @@ class ConfigController extends AbstractController
     }
 
     /**
-     * @Route("/refreshDoi", methods={"GET"}, name="refresh_doi")
      * @return Response
      * @noinspection PhpUnused
      */
+    #[Route(path: '/configuration/refreshDoi', methods: ['GET'], name: 'config_refresh_doi')]
     public function refresh(): Response
     {
         header('Content-Type: text/event-stream');

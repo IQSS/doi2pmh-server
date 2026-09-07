@@ -1,4 +1,4 @@
-FROM php:8.1-apache
+FROM php:8.4-apache
 RUN apt-get update && apt-get upgrade -y \
     && apt-get install -y \
         libfreetype6-dev \
@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
         gnupg \
         libcurl4-openssl-dev \
         libfreetype6-dev \
+        libicu-dev \
         libjpeg-turbo-progs \
         libjpeg62-turbo-dev \
         libonig-dev \
@@ -27,10 +28,12 @@ RUN apt-get update && apt-get install -y \
         unzip \
         wget \
         zlib1g-dev \
+    && docker-php-ext-configure intl \
     && docker-php-ext-install \
         bcmath \
         curl \
         exif \
+        intl \
         mysqli \
         opcache \
         pcntl \

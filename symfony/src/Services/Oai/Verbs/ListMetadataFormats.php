@@ -21,7 +21,7 @@ class ListMetadataFormats implements OaiVerbInterface
      * For now there is only oai_dc format which is allowed
      * @see OaiVerbInterface
      */
-    public function setArguments()
+    public function setArguments(): void
     {
         $this->arguments = [
             'verb' => new Verb($this),
